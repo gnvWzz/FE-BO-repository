@@ -1,4 +1,5 @@
 # FE-BO-repository
+
 create branch dev
 tung edit conflict
 
@@ -9,6 +10,3 @@ Quang second commit
 thuan update commit
 
 Hai
-
-Quang second commit
-
