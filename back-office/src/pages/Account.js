@@ -17,7 +17,7 @@ const account = {
 // used bootsnipp in https://bootsnipp.com/snippets/xnVB
 function Account() {
     return (
-        <div className="container">
+        <div className='main-container'>
       {/* <div className="col-md-5  toppad  pull-right col-md-offset-3 ">
            <a href="edit.html" >Edit Profile</a>
 

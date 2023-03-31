@@ -1,87 +1,45 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import React,{ useState, useEffect } from "react";
+import axios,{HttpStatusCode} from "axios";
+import {useNavigate} from 'react-router-dom'
+import ReactPaginate from 'react-paginate';
 import "../css/Product.css"
 
-const productList = [
-     {
-        id: 1,
-        name: 'Product a',
-        price: "10$",
-        producer: "Provider A",
-        quantity: 100,
-        hsd: "2 years",
-    },
-    {
-        id: 2,
-        name: 'Product b',
-        price: "10$",
-        producer: "Provider B",
-        quantity: 200,
-        hsd: "2 years",
-    },
-     {
-        id: 3,
-        name: 'Product c',
-        price: "10$",
-        producer: "Provider C",
-        quantity: 100,
-        hsd: "2 years",
-    }
-]
 function Product() {
+    const [products, setProducts] = useState([]);
+    const navigate = useNavigate();
+    const [pageCount, setPageCount] = useState(0);
+    const [currentPage, setCurrentPage] = useState(0);
+    // const [pageSize, setPageSize] = useState(3);
+
+    useEffect(() => {
+        loadProductList();
+    },[currentPage])
+    // },[currentPage, pageSize])
+
+    const loadProductList = async () => {
+        try{
+            const res = await axios .get(`http://localhost:8080/bo/product/list?page=${currentPage}`)
+            // const res = await axios .get(`http://localhost:8080/bo/product/list?page=${currentPage}&size=${pageSize}`)
+            console.log("API response DATA: " + JSON.stringify(res.data))
+            if (res.status === HttpStatusCode.Ok){
+                setProducts(res.data.content);
+                setPageCount(res.data.totalPages);
+            }
+        } catch(err){
+            throw err;
+        }
+    }
+
+//   console.log("List products" + JSON.stringify(products))
+    const handlePageChange = (data) => {
+        setCurrentPage(data.selected);
+        console.log("Page Change DATA: " + JSON.stringify(data))
+    };
+   
+
     return (
-    //     <div classNameName="container">
-    //     <h3>List Product</h3>
-    //     <div classNameName="py-4">
-    //         <table classNameName="table border shadow">
-    //             <thead>
-    //                 <tr>
-    //                     <th scope="col">Name</th>
-    //                     <th scope="col">Price</th>
-    //                     <th scope="col">Producer</th>
-    //                     <th scope="col">Quantity</th>
-    //                     <th scope="col">Hsd</th>
-    //                     <th scope="col">Hang da ban</th>
-    //                     <th scope="col">Action</th>
-    //                 </tr>
-    //             </thead>
-    //             <tbody>
-    //                 {productList.map(product => (
-    //                     <tr key={product.productId}>
-    //                         <td >{product.name}</td>
-    //                         <td>{product.price}</td>
-    //                         <td>{product.producer}</td>
-    //                         <td>{product.quantity}</td>
-    //                         <td>{product.hsd}</td>
-    //                         <td>{product.hangdaban}</td>
-    //                         <td>
-    //               {/* <Link
-    //                 classNameName="btn btn-primary mx-2"
-    //                 to={`/view/${product.productId}`}>
-    //                 View
-    //               </Link> */}
-    //               {/* <Link
-    //                 classNameName="btn btn-outline-primary mx-2"
-    //                 to={`/edit/${product.name}`}>
-    //                 Edit
-    //               </Link>
-    //               <Link
-    //                 classNameName="btn btn-danger mx-2"
-    //                 to={`/delete/${product.name}`}>
-    //                 Delete
-    //               </Link> */}
-    //             </td>
-    //                     </tr>
-    //                 )
-    //                 )}
-    //             </tbody>
-    //         </table>
 
-            
-    //     </div>
-    // </div>
-
-    <div id="invoice">
+    <div id="invoice"  className='main-container'>
            <hr/>
 
     <div className="invoice overflow-auto">
@@ -126,67 +84,38 @@ function Product() {
                     <thead>
                         <tr>
                             <th>#</th>
-                            {/* <th className="text-left">DESCRIPTION</th>
-                            <th className="text-right">HOUR PRICE</th>
-                            <th className="text-right">HOURS</th>
-                            <th className="text-right">TOTAL</th> */}
                             <th className="text-left">NAME</th>
-                            <th className="text-right">PRICE</th>
-                            <th className="text-right">QUANTITY</th>
-                            <th className="text-left">PRODUCER</th>
-                            <th className="text-left">EXPIRE</th>
-                            <th className="text-right">TOTAL</th>
+                            <th className="text-left">CATEGORY</th>
+                            <th className="text-left">PRICE</th>
+                            <th className="text-left">QUANTITY</th>
+                            <th className="text-left">ACTION</th>
                         </tr>
                     </thead>
-                <tbody>
-                    {productList.map(product => (
-                        <tr key={product.id}>
-                            <td  className="no">{product.id}</td>
+                    <tbody>
+                    {products.map((product,index) => (
+                        <tr key={index}>
+                            <td onClick={() => navigate(`/product/${product.id}`)}><img className="icon" src={product.icon} alt="Product Icon"/></td>
                             <td  className="text-left">{product.name}</td>
-                            <td className="unit">{product.price}</td>
-                            <td className="qty">{product.quantity}</td>
-                            <td className="text-left" style={{backgroundColor: "#ddd"}}>{product.producer}</td>
-                            <td>{product.hsd}</td>
+                            {/* <a href={`/manufacturer/${manufacturer.id}`}></a> */}
+                            <td className="text-left unit">{product.category}</td>
+                            <td className="text-left">{product.price}</td>
+                            <td className="text-left unit">{product.quantity}</td>
                             <td className="total"></td>
                             </tr>))}
-                        {/* <tr>
-                            <td className="no">04</td>
-                            <td className="text-left"><h3>
-                                <a target="_blank" href="https://www.youtube.com/channel/UC_UMEcP_kF0z4E6KbxCpV1w">
-                                Youtube channel
-                                </a>
-                                </h3>
-                               <a target="_blank" href="https://www.youtube.com/channel/UC_UMEcP_kF0z4E6KbxCpV1w">
-                                   Useful videos
-                               </a> 
-                               to improve your Javascript skills. Subscribe and stay tuned :)
-                            </td>
-                            <td className="unit">$0.00</td>
-                            <td className="qty">100</td>
-                            <td className="total">$0.00</td>
-                        </tr>
-                        <tr>
-                            <td className="no">01</td>
-                            <td className="text-left"><h3>Website Design</h3>Creating a recognizable design solution based on the company's existing visual identity</td>
-                            <td className="unit">$40.00</td>
-                            <td className="qty">30</td>
-                            <td className="total">$1,200.00</td>
-                        </tr>
-                        <tr>
-                            <td className="no">02</td>
-                            <td className="text-left"><h3>Website Development</h3>Developing a Content Management System-based Website</td>
-                            <td className="unit">$40.00</td>
-                            <td className="qty">80</td>
-                            <td className="total">$3,200.00</td>
-                        </tr>
-                        <tr>
-                            <td className="no">03</td>
-                            <td className="text-left"><h3>Search Engines Optimization</h3>Optimize the site for search engines (SEO)</td>
-                            <td className="unit">$40.00</td>
-                            <td className="qty">20</td>
-                            <td className="total">$800.00</td>
-                        </tr> */}
+                        
                     </tbody>
+                    <ReactPaginate
+                        previousLabel={"Previous"}
+                        nextLabel={"Next"}
+                        breakLabel={"..."}
+                        breakClassName={"break-me"}
+                        pageCount={pageCount}
+                        marginPagesDisplayed={2}
+                        pageRangeDisplayed={5}
+                        onPageChange={handlePageChange}
+                        containerClassName={"pagination"}
+                        activeClassName={"active"}
+                    />
                     <tfoot>
                         <tr>
                             <td colSpan="2"></td>
@@ -224,3 +153,35 @@ function Product() {
 }
 
 export default Product
+
+    //                         <td>
+    //               {/* <Link
+    //                 classNameName="btn btn-primary mx-2"
+    //                 to={`/view/${product.productId}`}>
+    //                 View
+    //               </Link> */}
+    //               {/* <Link
+    //                 classNameName="btn btn-outline-primary mx-2"
+    //                 to={`/edit/${product.name}`}>
+    //                 Edit
+    //               </Link>
+    //               <Link
+    //                 classNameName="btn btn-danger mx-2"
+    //                 to={`/delete/${product.name}`}>
+    //                 Delete
+    //               </Link> */}
+    //             </td>
+
+                        {/* <tr>
+                            <td className="no">04</td>
+                            <td className="text-left"><h3>
+                                <a target="_blank" href="https://www.youtube.com/channel/UC_UMEcP_kF0z4E6KbxCpV1w">
+                                Youtube channel
+                                </a>
+                                </h3>
+                               <a target="_blank" href="https://www.youtube.com/channel/UC_UMEcP_kF0z4E6KbxCpV1w">
+                                   Useful videos
+                               </a> 
+                               to improve your Javascript skills. Subscribe and stay tuned :)
+                            </td>
+                        </tr> */}

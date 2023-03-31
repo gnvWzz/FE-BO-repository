@@ -8,6 +8,9 @@
   display: flex;
   width: 100%;
 }
+.main-container{
+  background-color: lightblue;
+}
 main{
   width: 100%;
   padding: 20px;
