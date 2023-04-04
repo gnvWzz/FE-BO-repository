@@ -34,7 +34,7 @@ function Sidebar({children}){
 
     // get logo in https://logoipsum.com/
     return (
-        <div className='container'>
+        <div   className='container m-0'>
             <div className='sidebar'>
 
             <div className='top_section'>
@@ -53,16 +53,14 @@ function Sidebar({children}){
                 menuItem.map((item, index) => 
                (<NavLink to={item.path} key={index} className="link" activeclassname="active">
                     <div className='icon'>{item.icon}</div>
-                    <div className='link_text'>{item.name}</div>
+                    <div className='link_text' style={{paddingTop: "1em"}}>{item.name}</div>
                </NavLink>
                 
                 ))
             }
-
-
         
             </div>
-            <main>
+            <main className='p-0'>
             {children}
         </main>
         </div>

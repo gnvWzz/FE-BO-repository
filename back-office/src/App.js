@@ -8,16 +8,17 @@ import Dashboard from "./pages/Dashboard";
 import Manufacturer from "./pages/manufacturer/Manufacturer";
 import AddManufacturer from "./pages/manufacturer/AddManufacturer";
 import ManufacturerInfo from "./pages/manufacturer/ManufacturerInfo";
-import Product from "./pages/Product";
-import ProductInfo from "./pages/ProductInfo";
+import Product from "./pages/product/Product";
+import ProductInfo from "./pages/product/ProductInfo";
+import AddProduct from "./pages/product/AddProduct";
 
 
 function App() {
   return (
   <BrowserRouter>
-    <Sidebar >
-      <Navbar/>
-      <Routes>
+  <Sidebar>
+    <Navbar/>
+        <Routes>
         <Route path="/" element={<Dashboard />} />
         <Route path="/account" element={<Account />} />
         <Route path="/analytics" element={<Analytics />} />
@@ -26,8 +27,11 @@ function App() {
         <Route path="/manufacturer/add" element={<AddManufacturer/>}/>
         <Route path="/product" element={<Product />} />
         <Route path="/product/:productId" element={<ProductInfo />} />
+        <Route path="/product/add" element={<AddProduct/>}/>
       </Routes>
-    </Sidebar >
+  </Sidebar>
+    
+      
   </BrowserRouter>
     
   );
