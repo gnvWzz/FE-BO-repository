@@ -50,12 +50,6 @@
     padding-bottom: 50px
 }
 
-.invoice main .thanks {
-    margin-top: -40px;
-    font-size: 2em;
-    margin-bottom: 50px
-}
-
 .invoice main .notices {
     padding-left: 6px;
     border-left: 6px solid #3989c6
@@ -102,8 +96,14 @@
     background: #3989c6
 }
 
+.invoice table .icon {
+    max-width: 2em;
+    max-height: 2em;
+    background: #3989c6
+}
+
 .invoice table .unit {
-    background: #ddd
+    background: #16a04f
 }
 
 .invoice table .total {
@@ -162,4 +162,5 @@
     .invoice>div:last-child {
         page-break-before: always
     }
+
 }
