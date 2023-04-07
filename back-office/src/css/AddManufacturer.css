@@ -1,0 +1,12 @@
+input {
+    width: 100%;
+}
+
+table, th, td {
+    border: 1px solid black !important;
+}
+
+tr{
+    background-color: #eee !important;
+}
+
