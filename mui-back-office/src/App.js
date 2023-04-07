@@ -13,6 +13,7 @@ import AddProduct from "./pages/product/AddProduct";
 import Account from "./pages/account/account";
 import AddManufacturer from "./pages/manufacturer/AddManufacturer";
 import Calendar from "./components/Calendar";
+import Member from "./pages/member/Member";
 function App() {
   const [theme, colorMode] = useMode();
 
@@ -26,6 +27,7 @@ function App() {
             <main className="content">
               <Topbar/>
                 <Routes>
+                  <Route exact path="/member/list" element={<Member />} />
                   <Route exact path="/manufacturer/list" element={<Manufacturer />} />
                   <Route exact path="/manufacturer/:manufacturerId" element={<ManufacturerInfo/>}/>
                   <Route exact path="/manufacturer/add" element={<AddManufacturer/>}/>

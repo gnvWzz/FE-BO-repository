@@ -56,12 +56,6 @@ export default function Product (){
     flex: 1,
   },
   {
-    field: "response",
-    headerName: "Quantity",
-    type: "number",
-    flex: 1,
-  },
-  {
     field: "id",
     headerName: "Status",
     type: "button",
@@ -72,7 +66,7 @@ export default function Product (){
         axios.post(`http://localhost:8080/bo/product/block/${params.row.id}`)
           .then(res => {
             if (res.status === HttpStatusCode.Ok) {
-              console.log(res.status);
+              // console.log(res.status);
             }
           })
           .catch(err => {
@@ -94,7 +88,7 @@ export default function Product (){
   const loadProducts = async () => {
     try {
       const response = await axios.get(`http://localhost:8080/bo/product/list?page=${currentPage}`);
-      console.log(response.data.content);
+      // console.log(response.data.content);
       setProducts(response.data.content);
       setPageCount(response.data.totalPages);
     } catch (error) {

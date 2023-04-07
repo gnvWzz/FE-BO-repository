@@ -12,40 +12,30 @@ import "../../components/Pagination.css"
 const EmptyFooter = () => {
   return null;
 }
-export default function Manufacturer (){
+export default function Member (){
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const [manufacturers, setManufacturers] = useState([]);
+  const [members, setMembers] = useState([]);
   const [isBlocked, setIsBlocked] = useState(false);
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(0);
   const [pageCount, setPageCount] = useState(0);
   const columns = [
-    { field: "businessCode", headerName: "Business Code", flex: 0.5 },
+    { field: "id", headerName: "Id", flex: 0.5 },
     { field: "icon", headerName: "Icon", width: 70 ,renderCell: (params)=>{
       console.log(params.row.icon)
       return (
-          <img src={params.row.icon} alt='' onClick={() => {navigate(`/manufacturer/${params.row.id}`)}} style={{width:"40px", height:"40px"}}/>
+          <img src={params.row.icon} alt='' onClick={() => {navigate(`/member/${params.row.id}`)}} style={{width:"40px", height:"40px"}}/>
         )
       }
     },
     {
-      field: "name",
+      field: "fullName",
       headerName: "Name",
       flex: 1,
       cellClassName: "name-column--cell",
-    },
-    {
-      field: "field",
-      headerName: "Field",
-      flex: 1,
       headerAlign: "left",
       align: "left",
-    },
-    {
-      field: "landline",
-      headerName: "Land Line",
-      flex: 1,
     },
     {
       field: "email",
@@ -53,22 +43,27 @@ export default function Manufacturer (){
       flex: 1,
     },
     {
-      field: "address",
-      headerName: "Address",
-      flex: 1,
+      field: "mobile",
+      headerName: "Mobile",
+      flex: 0.7,
     },
     {
-      field: "id",
+      field: "landline",
+      headerName: "Land Line",
+      flex: 0.7,
+    },
+    {
+      field: "status",
       headerName: "Status",
       type: "button",
       flex: 0.5,
       renderCell: (params)=>{
         const handleBlockClick = () => {
-          console.log(params.row.id);
-          axios.post(`http://localhost:8080/manufacturer/block/${params.row.id}`)
+          // console.log(params.row.id);
+          axios.post(`http://localhost:8080/member/block/${params.row.id}`)
             .then(res => {
               if (res.status === HttpStatusCode.Ok) {
-                // console.log(res.status);
+                console.log(res.status);
               }
             })
             .catch(err => {
@@ -84,13 +79,13 @@ export default function Manufacturer (){
   ];
 
   useEffect(() => {
-    loadManufacturers();
+    loadMembers();
   }, [currentPage, isBlocked]);
 
-  const loadManufacturers = async () => {
+  const loadMembers = async () => {
     try {
-      const response = await axios.get(`http://localhost:8080/manufacturer/list?page=${currentPage}`);
-      setManufacturers(response.data.content);
+      const response = await axios.get(`http://localhost:8080/member/list?page=${currentPage}`);
+      setMembers(response.data.content);
       setPageCount(response.data.totalPages);
     } catch (error) {
       console.error(error);
@@ -105,11 +100,11 @@ export default function Manufacturer (){
     <>
     <Box m="20px">
       <Header
-        title="MANUFACTURERS"
-        subtitle="List of Manufacturer for Future Reference"
+        title="MEMBERS"
+        subtitle="List of Member for Future Reference"
       />
-      <button onClick={() => {navigate("/manufacturer/add")}}>
-        CREATE NEW MANUFACTURER
+      <button onClick={() => {navigate("/member/add")}}>
+        CREATE NEW MEMBER
       </button>
       <Box
         m="40px 0 0 0"
@@ -144,7 +139,7 @@ export default function Manufacturer (){
         }}
       >
         <DataGrid
-          rows={manufacturers}
+          rows={members}
           columns={columns}
           pagination
           components={{
