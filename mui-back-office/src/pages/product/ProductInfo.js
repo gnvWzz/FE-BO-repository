@@ -3,12 +3,13 @@ import {useNavigate, useParams} from 'react-router-dom'
 import axios,{HttpStatusCode} from 'axios';
 import { Grid, Paper, Typography, Box, Button } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import Header from '../../components/Header';
 
 function ProductInfo() {
     const isNonMobile = useMediaQuery("(min-width:600px)");
     const [product, setProduct] = useState({});
     const {productId} = useParams();
-    const [manufacturerDetailDtos, setManufacturerDetailDtos] = useState([]);
+    const [manufacturerProductBODtos, setManufacturerProductBODtos] = useState([]);
 
     useEffect(() => {
         loadProduct()
@@ -17,18 +18,23 @@ function ProductInfo() {
     const loadProduct = async () => {
         try {
           const res = await axios.get(`http://localhost:8080/bo/product/${productId}`);
-          console.log(res.data);
           if (res.status === HttpStatusCode.Ok) {
+            console.log(res.data);
             setProduct(res.data);
-            setManufacturerDetailDtos(res.data.responseManufacturerDetailDtos);
+            setManufacturerProductBODtos(res.data.responseManufacturerProductBODtos);
             
           }
         } catch (err) {
           throw err;
         }
       };
-      console.log(manufacturerDetailDtos)
+      console.log(manufacturerProductBODtos)
     return (
+    <Box m="20px">
+      <Header
+          title="PRODUCT INFO"
+          subtitle="Product Info for Future Reference"
+        />
       <Box
         display="grid"
         gap="20px" marginLeft={"20px"} marginRight={"20px"}
@@ -108,9 +114,9 @@ function ProductInfo() {
                     <td>{product.status}</td>
                   </tr>
                   <tr>
-                    <td>Manufacturer</td>
+                    <td>Manufacturers</td>
                     <td><ol type='1'>
-                      {manufacturerDetailDtos.map((manufacturer) =>(
+                      {manufacturerProductBODtos.map((manufacturer) =>(
                           <li><a href={`/manufacturer/${manufacturer.manufacturerId}`}>{manufacturer.manufacturerName}</a></li>
                         ))
                       }
@@ -131,6 +137,7 @@ function ProductInfo() {
               </div> */}
       </Grid>
      </Box>
+    </Box>
     )
 }
 

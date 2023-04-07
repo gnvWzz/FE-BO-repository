@@ -3,11 +3,13 @@ import {useNavigate, useParams} from 'react-router-dom'
 import axios,{HttpStatusCode} from 'axios';
 import { Grid, Paper, Typography, Box } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import Header from '../../components/Header';
 
 export default function ManufacturerInfo() {
     const isNonMobile = useMediaQuery("(min-width:600px)");
     const [manufacturer, setManufacturer] = useState({})
     const {manufacturerId} = useParams();
+    const [manufacturerProductBODtos, setManufacturerProductBODtos] = useState([]);
 
     useEffect(() => {
         loadManufacturer()
@@ -16,9 +18,10 @@ export default function ManufacturerInfo() {
     const loadManufacturer = async () => {
         try {
           const res = await axios.get(`http://localhost:8080/manufacturer/${manufacturerId}`);
-        //   console.log(res.data);
           if (res.status === HttpStatusCode.Ok) {
+            console.log(res.data);
             setManufacturer(res.data);
+            setManufacturerProductBODtos(res.data.responseManufacturerProductBODtos)
           }
         } catch (err) {
           throw err;
@@ -26,6 +29,11 @@ export default function ManufacturerInfo() {
       };
 
     return (
+  <Box m="20px">
+      <Header
+          title="MANUFACTURER INFO"
+          subtitle="Manufacturer Info for Future Reference"
+        />    
     <Box
       display="grid"
       gap="20px" marginLeft={"20px"} marginRight={"20px"}
@@ -81,7 +89,16 @@ export default function ManufacturerInfo() {
                         <td>Website</td>
                         <td><a href={manufacturer.website}>{manufacturer.website}</a></td>
                       </tr>
-                     
+                      <tr>
+                        <td>Products</td>
+                        <td><ol type='1'>
+                          {manufacturerProductBODtos.map((ele) =>(
+                              <li><a href={`/bo/product/${ele.productBOId}`}>{ele.productBOName}</a></li>
+                            ))
+                          }
+                        </ol>
+                        </td>
+                      </tr>
                     </tbody>
                   </table>
                   
@@ -90,6 +107,7 @@ export default function ManufacturerInfo() {
         </Paper>
       </Grid>      
     </Box>
+  </Box>
     )
 }
 

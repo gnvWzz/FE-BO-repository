@@ -160,7 +160,7 @@ function SideBar() {
                     />
                     <Item
                       title="Manage Team"
-                      to="/team"
+                      to="/member/list"
                       icon={<PeopleOutlinedIcon />}
                       selected={selected}
                       setSelected={setSelected}
