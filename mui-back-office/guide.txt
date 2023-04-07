@@ -1,0 +1,13 @@
+npx create-react-app mui-back-office
+npm i react-router-dom
+npm i @mui/icons-material @mui/material @mui/x-data-grid
+npm i react-pro-sidebar
+
+#sử dụng @mui/material để thiết lập grid cho giao diện
+
+#npm i react-icons   (tạm thời không xài)
+#npm i antd  (tạm thời không xài)
+npm i axios
+npm i formik yup
+npm i react-paginate    (thư viện phân trang react)
+npm i @fullcalendar/core @fullcalendar/daygrid @fullcalendar/interaction @fullcalendar/list @fullcalendar/react @fullcalendar/timegrid

@@ -1,0 +1,29 @@
+/* .pagination-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 16px;
+  } */
+  
+  .pagination li {
+    display: inline-block;
+    margin-right: 8px;
+    padding: 8px;
+    border-radius: 4px;
+    background-color: #e8e8e8;
+    cursor: pointer;
+  }
+  
+  .pagination li a {
+    text-decoration: none;
+    color: #333;
+  }
+  
+  .pagination li.active {
+    background-color: #4CAF50;
+  }
+  
+  .pagination li.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
