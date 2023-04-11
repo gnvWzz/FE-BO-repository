@@ -12,7 +12,7 @@ import "../../components/Pagination.css"
 const EmptyFooter = () => {
   return null;
 }
-export default function Member (){
+export default function MemberList (){
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [members, setMembers] = useState([]);
@@ -22,10 +22,15 @@ export default function Member (){
   const [pageCount, setPageCount] = useState(0);
   const columns = [
     { field: "id", headerName: "Id", flex: 0.5 },
-    { field: "icon", headerName: "Icon", width: 70 ,renderCell: (params)=>{
-      console.log(params.row.icon)
+    { field: "image", headerName: "Image", width: 70 ,renderCell: (params)=>{
+      // console.log(params.row.image)
+      const encodedString = params.row.image; // chuỗi mã hóa
+      const lastChar = encodedString.charAt(encodedString.length - 1); // lấy ký tự cuối cùng
+      const numPadChars = (lastChar === "=" ? 1 : 0) + (lastChar === "==" ? 1 : 0); // tính số ký tự đệm bị bỏ qua
+      const encodedWithoutPadding = encodedString.slice(0, -numPadChars); // xóa các ký tự đệm
+      const decodedString = decodeURIComponent(encodedWithoutPadding);
       return (
-          <img src={params.row.icon} alt='' onClick={() => {navigate(`/member/${params.row.id}`)}} style={{width:"40px", height:"40px"}}/>
+          <img src={decodedString} alt='' onClick={() => {navigate(`/member/${params.row.id}`)}} style={{width:"40px", height:"40px"}}/>
         )
       }
     },
@@ -63,7 +68,7 @@ export default function Member (){
           axios.post(`http://localhost:8080/member/block/${params.row.id}`)
             .then(res => {
               if (res.status === HttpStatusCode.Ok) {
-                console.log(res.status);
+                // console.log(res.status);
               }
             })
             .catch(err => {

@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import { useNavigate } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom'
 import axios,{HttpStatusCode} from 'axios';
 import { Box, Button, TextField, Snackbar} from "@mui/material";
 import { Formik, Form , Field} from "formik";
@@ -7,45 +7,43 @@ import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from '../../components/Header';
 
-export default function AddManufacturer() {
+export default function AddMember() {
     const isNonMobile = useMediaQuery("(min-width:600px)");
     const [message, setMessage] = useState("");
     const navigate = useNavigate();
-
   useEffect(() => {
     const timer = setTimeout(() => {
       setMessage("");
     }, 5000);
     return () => clearTimeout(timer);
   }, [message]);
-
   const handleSubmit = (values) => {
     axios
-      .post("http://localhost:8080/manufacturer/save", values)
+      .post("http://localhost:8080/member/save", values)
       .then(res => {
         if (res.status === HttpStatusCode.Ok) {
-          // setMessage("successfully created");
-          console.log("response data ", res.data);
-          navigate(`/manufacturer/add-image/${res.data.id}`)
+        //   setMessage("successfully created");
+        console.log("response data ", res.data);
+        navigate(`/member/add-image/${res.data.id}`)
         }
       })
       .catch(err => {
         console.error(err);
-        setMessage("An error occurred while creating the manufacturer");
+        setMessage("An error occurred while creating the member");
       });
   }
 
     return (
         <Box m="20px">
-      <Header title="CREATE NEW MANUFACTURER" subtitle="Create a New Manufacturer" />
+      <Header title="CREATE NEW MEMBER" subtitle="Create a New Member" />
 
       <Formik
         initialValues={
           initialValues
         }
-        validationSchema={addManufacturerSchema}
+        validationSchema={addMemberSchema}
         onSubmit={values => {
-        //   console.log(values);
+          console.log(values);
           handleSubmit(values);
         }}
       >
@@ -67,24 +65,11 @@ export default function AddManufacturer() {
                 fullWidth
                 variant="filled"
                 type="text"
-                label="Business Code"
+                label="Full Name"
                 onBlur={handleBlur}
-                name="businessCode"
-                error={!!touched.businessCode && !!errors.businessCode}
-                helperText={touched.businessCode && errors.businessCode}
-                sx={{ gridColumn: "span 2" }}
-                as= {TextField}
-              />
-              <Field
-                fullWidth
-                variant="filled"
-                required
-                type="text"
-                label="Name"
-                onBlur={handleBlur}
-                name="name"
-                error={!!touched.name && !!errors.name}
-                helperText={touched.name && errors.name}
+                name="fullName"
+                error={!!touched.fullName && !!errors.fullName}
+                helperText={touched.fullName && errors.fullName}
                 sx={{ gridColumn: "span 2" }}
                 as= {TextField}
               />
@@ -92,24 +77,11 @@ export default function AddManufacturer() {
                 fullWidth
                 variant="filled"
                 type="text"
-                label="Field"
+                label="Password"
                 onBlur={handleBlur}
-                name="field"
-                error={!!touched.field && !!errors.field}
-                helperText={touched.field && errors.field}
-                sx={{ gridColumn: "span 2" }}
-                as= {TextField}
-              />
-              <Field
-                fullWidth
-                variant="filled"
-                required
-                type="text"
-                label="Email"
-                onBlur={handleBlur}
-                name="email"
-                error={!!touched.email && !!errors.email}
-                helperText={touched.email && errors.email}
+                name="password"
+                error={!!touched.password && !!errors.password}
+                helperText={touched.password && errors.password}
                 sx={{ gridColumn: "span 2" }}
                 as= {TextField}
               />
@@ -141,6 +113,18 @@ export default function AddManufacturer() {
                 fullWidth
                 variant="filled"
                 type="text"
+                label="Email"
+                onBlur={handleBlur}
+                name="email"
+                error={!!touched.email && !!errors.email}
+                helperText={touched.email && errors.email}
+                sx={{ gridColumn: "span 2" }}
+                as= {TextField}
+              />
+              <Field
+                fullWidth
+                variant="filled"
+                type="text"
                 label="Address"
                 onBlur={handleBlur}
                 name="address"
@@ -161,22 +145,10 @@ export default function AddManufacturer() {
                 sx={{ gridColumn: "span 2" }}
                 as= {TextField}
               />
-              <Field
-                fullWidth
-                variant="filled"
-                type="text"
-                label="Website"
-                onBlur={handleBlur}
-                name="website"
-                error={!!touched.website && !!errors.website}
-                helperText={touched.website && errors.website}
-                sx={{ gridColumn: "span 2" }}
-                as= {TextField}
-              />
             </Box>
             <Box display="flex" justifyContent="end" mt="20px">
               <Button type="submit" color="secondary" variant="contained" >
-                Create New Manufacturer
+                Create New Member
               </Button>
             </Box>
           </Form>
@@ -195,8 +167,8 @@ export default function AddManufacturer() {
 // const phoneRegExp =
 //   /^((\+[1-9]{1,4}[ -]?)|(\([0-9]{2,3}\)[ -]?)|([0-9]{2,4})[ -]?)*?[0-9]{3,4}[ -]?[0-9]{3,4}$/;
 
-const addManufacturerSchema = yup.object().shape({
-  name: yup.string().required("required"),
+const addMemberSchema = yup.object().shape({
+  fullName: yup.string().required("required"),
   email: yup.string().email("invalid email").required("required"),
   // contact: yup
   //   .string()
@@ -205,14 +177,13 @@ const addManufacturerSchema = yup.object().shape({
 
 });
 const initialValues = {
-  businessCode: "",
-  name: "",
-  field: "",
-  email: "",
-  mobile: "",
-  landline: "",
-  address: "",
-  signup: "",
-  website: "",
+    fullName: "",
+    password: "",
+    mobile: "",
+    landline: "",
+    email: "",
+    address: "",
+    signup: "",
+    roleId: "",
 };
 
