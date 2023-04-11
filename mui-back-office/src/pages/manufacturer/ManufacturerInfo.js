@@ -10,6 +10,7 @@ export default function ManufacturerInfo() {
     const [manufacturer, setManufacturer] = useState({})
     const {manufacturerId} = useParams();
     const [manufacturerProductBODtos, setManufacturerProductBODtos] = useState([]);
+    const [decodedString, setDecodedString ] = useState("");
 
     useEffect(() => {
         loadManufacturer()
@@ -22,6 +23,11 @@ export default function ManufacturerInfo() {
             console.log(res.data);
             setManufacturer(res.data);
             setManufacturerProductBODtos(res.data.responseManufacturerProductBODtos)
+            const encodedString = res.data.image; // chuỗi mã hóa
+            const lastChar = encodedString.charAt(encodedString.length - 1); // lấy ký tự cuối cùng
+            const numPadChars = (lastChar === "=" ? 1 : 0) + (lastChar === "==" ? 1 : 0); // tính số ký tự đệm bị bỏ qua
+            const encodedWithoutPadding = encodedString.slice(0, -numPadChars); // xóa các ký tự đệm
+            setDecodedString( decodeURIComponent(encodedWithoutPadding));
           }
         } catch (err) {
           throw err;
@@ -43,8 +49,9 @@ export default function ManufacturerInfo() {
       }}
     >
       <Grid sx={{ gridColumn: "span 2" }}>
+          
           <Paper>
-            <img alt="Manufacturer Pic" src={manufacturer.icon} className="img-circle img-responsive" style={{maxWidth: "100%", height: "auto", padding: "3em"}}/>
+            <img alt="Manufacturer Pic" src={decodedString} className="img-circle img-responsive" style={{maxWidth: "100%", height: "auto", padding: "3em"}}/>
           </Paper>
       </Grid>      
 

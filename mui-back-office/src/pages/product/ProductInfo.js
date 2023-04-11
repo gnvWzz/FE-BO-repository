@@ -10,6 +10,7 @@ function ProductInfo() {
     const [product, setProduct] = useState({});
     const {productId} = useParams();
     const [manufacturerProductBODtos, setManufacturerProductBODtos] = useState([]);
+    const [decodedString, setDecodedString ] = useState("");
 
     useEffect(() => {
         loadProduct()
@@ -22,7 +23,11 @@ function ProductInfo() {
             console.log(res.data);
             setProduct(res.data);
             setManufacturerProductBODtos(res.data.responseManufacturerProductBODtos);
-            
+            const encodedString = res.data.image; // chuỗi mã hóa
+            const lastChar = encodedString.charAt(encodedString.length - 1); // lấy ký tự cuối cùng
+            const numPadChars = (lastChar === "=" ? 1 : 0) + (lastChar === "==" ? 1 : 0); // tính số ký tự đệm bị bỏ qua
+            const encodedWithoutPadding = encodedString.slice(0, -numPadChars); // xóa các ký tự đệm
+            setDecodedString( encodedWithoutPadding ? JSON.parse(decodeURIComponent(encodedWithoutPadding)) : []);
           }
         } catch (err) {
           throw err;
@@ -47,7 +52,7 @@ function ProductInfo() {
         <Grid sx={{ gridColumn: "span 2" }}>
           <Paper>
             <div>
-              <img alt="Product Pic" src={product.icon} style={{maxWidth: "100%", height: "auto", padding: "3em"}}/>
+              <img alt="Product Pic" src={decodedString[0]} style={{maxWidth: "100%", height: "auto", padding: "3em"}}/>
             </div>
           </Paper>
         </Grid>

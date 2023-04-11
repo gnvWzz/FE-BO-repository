@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import axios,{HttpStatusCode} from 'axios';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { Box, Button, TextField, Snackbar} from "@mui/material";
 import { Formik, Form , Field} from "formik";
 import * as yup from "yup";
@@ -10,7 +11,7 @@ export default function AddProduct() {
     const isNonMobile = useMediaQuery("(min-width:600px)");
     // const [product, setProduct] = useState({});
     const [message, setMessage] = useState("");
-
+    const navigate = useNavigate();
   useEffect(() => {
     const timer = setTimeout(() => {
       setMessage("");
@@ -23,8 +24,9 @@ export default function AddProduct() {
       .post("http://localhost:8080/bo/product/save", values)
       .then(res => {
         if (res.status === HttpStatusCode.Ok) {
-          setMessage("successfully created");
-          // setProduct({});
+          // setMessage("successfully created");
+          console.log("response data ", res.data);
+          navigate(`/bo/product/add-image/${res.data.id}`)
         }
       })
       .catch(err => {
@@ -187,18 +189,6 @@ export default function AddProduct() {
                 fullWidth
                 variant="filled"
                 type="text"
-                label="Icon"
-                onBlur={handleBlur}
-                name="icon"
-                error={!!touched.icon && !!errors.icon}
-                helperText={touched.icon && errors.icon}
-                sx={{ gridColumn: "span 2" }}
-                as= {TextField}
-              />
-              <Field
-                fullWidth
-                variant="filled"
-                type="text"
                 label="Brief Description"
                 onBlur={handleBlur}
                 name="briefDescription"
@@ -269,7 +259,6 @@ const initialValues = {
     weight: "",
     material: "",
     quantity: "",
-    icon: "",
     briefDescription: "",
     fullDescription: "",
     manufacturerId: "",

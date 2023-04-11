@@ -153,7 +153,7 @@ function SideBar() {
                     </Typography>
                     <Item
                       title="Account"
-                      to="/account"
+                      to="/member/1"
                       icon={<PersonOutlinedIcon />}
                       selected={selected}
                       setSelected={setSelected}
