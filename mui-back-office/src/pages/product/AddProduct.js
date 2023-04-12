@@ -20,8 +20,13 @@ export default function AddProduct() {
   }, [message]);
 
   const handleSubmit = (values) => {
+    const { size, color, ...data } = values;
+  const sizeColor = { size, color };
+  if (size && color) {
+    data.sizeColor = JSON.stringify(sizeColor);
+  }
     axios
-      .post("http://localhost:8080/bo/product/save", values)
+      .post("http://localhost:8080/bo/product/save", data)
       .then(res => {
         if (res.status === HttpStatusCode.Ok) {
           // setMessage("successfully created");
@@ -256,6 +261,7 @@ const initialValues = {
     price: "",
     size: "",
     color: "",
+    sizeColor: "",
     weight: "",
     material: "",
     quantity: "",

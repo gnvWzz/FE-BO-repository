@@ -10,8 +10,8 @@ function ProductInfo() {
     const [product, setProduct] = useState({});
     const {productId} = useParams();
     const [manufacturerProductBODtos, setManufacturerProductBODtos] = useState([]);
-    const [decodedString, setDecodedString ] = useState("");
-
+    const [decodedString, setDecodedString ] = useState([]);
+    const [sizeColor, setSizeColor] = useState({});
     useEffect(() => {
         loadProduct()
     },[])
@@ -20,7 +20,9 @@ function ProductInfo() {
         try {
           const res = await axios.get(`http://localhost:8080/bo/product/${productId}`);
           if (res.status === HttpStatusCode.Ok) {
-            console.log(res.data);
+            console.log("res.data", res.data);
+            console.log("res.data.sizeColor",res.data.sizeColor);
+            setSizeColor(res.data.sizeColor);
             setProduct(res.data);
             setManufacturerProductBODtos(res.data.responseManufacturerProductBODtos);
             const encodedString = res.data.image; // chuỗi mã hóa
@@ -28,12 +30,15 @@ function ProductInfo() {
             const numPadChars = (lastChar === "=" ? 1 : 0) + (lastChar === "==" ? 1 : 0); // tính số ký tự đệm bị bỏ qua
             const encodedWithoutPadding = encodedString.slice(0, -numPadChars); // xóa các ký tự đệm
             setDecodedString( encodedWithoutPadding ? JSON.parse(decodeURIComponent(encodedWithoutPadding)) : []);
+            
+            
           }
         } catch (err) {
           throw err;
         }
       };
-      console.log(manufacturerProductBODtos)
+      console.log("sizeColor: ",(JSON.parse (sizeColor)).size)
+      // console.log(manufacturerProductBODtos)
     return (
     <Box m="20px">
       <Header
@@ -92,7 +97,7 @@ function ProductInfo() {
                   </tr>
                   <tr>
                     <td>Size</td>
-                    <td>{product.size}</td>
+                    <td>{(JSON.parse (sizeColor)).size}</td>
                   </tr>
                   <tr>
                     <td>Color</td>

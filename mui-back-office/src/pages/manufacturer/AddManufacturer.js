@@ -24,7 +24,6 @@ export default function AddManufacturer() {
       .post("http://localhost:8080/manufacturer/save", values)
       .then(res => {
         if (res.status === HttpStatusCode.Ok) {
-          // setMessage("successfully created");
           console.log("response data ", res.data);
           navigate(`/manufacturer/add-image/${res.data.id}`)
         }

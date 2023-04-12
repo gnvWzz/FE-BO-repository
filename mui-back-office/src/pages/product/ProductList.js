@@ -24,6 +24,7 @@ export default function ProductList (){
   const columns = [
   { field: "serialNumber", headerName: "Serial Number", flex: 0.5 },
   { field: "image", headerName: "Image", width: 70 ,renderCell: (params)=>{
+    if(params.row.image){
     const encodedString = params.row.image; // chuỗi mã hóa
       const lastChar = encodedString.charAt(encodedString.length - 1); // lấy ký tự cuối cùng
       const numPadChars = (lastChar === "=" ? 1 : 0) + (lastChar === "==" ? 1 : 0); // tính số ký tự đệm bị bỏ qua
@@ -31,12 +32,16 @@ export default function ProductList (){
       // Bổ sung kiểm tra chuỗi mã hóa rỗng trước khi giải mã
       const decodedString = encodedWithoutPadding ? JSON.parse(decodeURIComponent(encodedWithoutPadding)) : [];
       console.log(decodedString[0]);
-    return (
-        <img src={decodedString[0]} alt='' onClick={() => {navigate(`/bo/product/${params.row.id}`)}} style={{width:"40px", height:"40px"}}/>
+      return (
+        <img src={decodedString[0]} alt='Product Pic' onClick={() => {navigate(`/bo/product/${params.row.id}`)}} style={{width:"40px", height:"40px"}}/>
     )
-    
-  }
-  },
+    } else {
+        return(
+          <img src={"https://media.istockphoto.com/id/924949200/vector/404-error-page-or-file-not-found-icon.jpg?s=170667a&w=0&k=20&c=gsR5TEhp1tfg-qj1DAYdghj9NfM0ldfNEMJUfAzHGtU="} alt='Product Pic' onClick={() => {navigate(`/bo/product/${params.row.id}`)}} style={{width:"40px", height:"40px"}}/>
+        )
+      }
+  }},
+  //Mac du image la bac buoc, nhung if-else trong truong hop mat url trong database thi khong xay ra loi TypeError: null tren FE
   {
     field: "name",
     headerName: "Name",

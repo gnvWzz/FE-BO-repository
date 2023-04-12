@@ -18,40 +18,56 @@ import AddMember from "./pages/member/AddMember";
 import AddMemberImage from "./pages/member/AddMemberImage";
 import AddManufacturerImage from "./pages/manufacturer/AddManufacturerImage";
 import AddProductImages from "./pages/product/AddProductImages";
+import Login from "./components/Login";
+import SignUp from "./components/Signup";
 
 function App() {
   const [theme, colorMode] = useMode();
+  const isLoggedIn = false; // đổi thành true nếu người dùng đã đăng nhập
 
   return (
-  <BrowserRouter>
-    <ColorModeContext.Provider value={colorMode}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline/>
+    <BrowserRouter>
+      <ColorModeContext.Provider value={colorMode}>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
           <div className="app">
-            <SideBar/>
+            {isLoggedIn && <SideBar />}
             <main className="content">
-              <Topbar/>
-                <Routes>
-                  <Route exact path="/member/list" element={<MemberList />} />
-                  <Route exact path="/member/add" element={<AddMember />} />
-                  <Route exact path="/member/:memberId" element={<Account />} />
-                  <Route exact path="/member/add-image/:memberId" element={<AddMemberImage />} />
-                  <Route exact path="/manufacturer/add-image/:manufacturerId" element={<AddManufacturerImage />} />
-                  <Route exact path="/bo/product/add-image/:productId" element={<AddProductImages />} />
-                  <Route exact path="/manufacturer/list" element={<ManufacturerList />} />
-                  <Route exact path="/manufacturer/:manufacturerId" element={<ManufacturerInfo/>}/>
-                  <Route exact path="/manufacturer/add" element={<AddManufacturer/>}/>
-                  <Route exact path="/bo/product/list" element={<ProductList />} />
-                  <Route exact path="/bo/product/:productId" element={<ProductInfo/>}/>
-                  <Route exact path="/bo/product/add" element={<AddProduct/>}/>
-                  <Route exact path="/account" element={<Account/>}/>
-                  <Route exact path="/calendar" element={<Calendar/>}/>
-                </Routes>
+              {isLoggedIn && <Topbar />}
+              <Routes>
+                <Route exact path="/" element={<Login />} />
+                <Route exact path="/signup" element={<SignUp />} />
+                {isLoggedIn && (
+                  <>
+                    <Route exact path="/member/list" element={<MemberList />} />
+                    <Route exact path="/member/add" element={<AddMember />} />
+                    <Route exact path="/member/:memberId" element={<Account />} />
+                    <Route
+                      exact
+                      path="/member/add-image/:memberId"
+                      element={<AddMemberImage />}
+                    />
+                    <Route
+                      exact
+                      path="/manufacturer/add-image/:manufacturerId"
+                      element={<AddManufacturerImage />}
+                    />
+                    <Route exact path="/manufacturer/list" element={<ManufacturerList />} />
+                    <Route exact path="/manufacturer/:manufacturerId" element={<ManufacturerInfo />} />
+                    <Route exact path="/manufacturer/add" element={<AddManufacturer />} />
+                    <Route exact path="/bo/product/list" element={<ProductList />} />
+                    <Route exact path="/bo/product/:productId" element={<ProductInfo />} />
+                    <Route exact path="/bo/product/add" element={<AddProduct />} />
+                    <Route exact path="/account" element={<Account />} />
+                    <Route exact path="/calendar" element={<Calendar />} />
+                  </>
+                )}
+              </Routes>
             </main>
           </div>
-      </ThemeProvider>
-    </ColorModeContext.Provider>
-  </BrowserRouter>
+        </ThemeProvider>
+      </ColorModeContext.Provider>
+    </BrowserRouter>
   );
 }
 
