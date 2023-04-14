@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
@@ -14,11 +14,21 @@ import {
 } from "@mui/material";
 import Header from "../components/Header";
 import { tokens } from "../theme";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const Calendar = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const navigate = useNavigate();
   const [currentEvents, setCurrentEvents] = useState([]);
+
+  // useEffect(()=>{
+  //   if(localStorage.getItem("tokenOwner") !==null){
+  //    navigate(`/calendar`)
+  //   }else{
+  //     navigate(`/`)
+  //   }
+  // })
 
   const handleDateClick = (selected) => {
     const title = prompt("Please enter a new title for your event");
