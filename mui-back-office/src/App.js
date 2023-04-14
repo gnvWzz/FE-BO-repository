@@ -23,7 +23,6 @@ import Login from "./components/Login";
 import Layout from "./components/Layout";
 import SignUp from "./components/SignUp";
 import Store from "./pages/manufacturer/Store";
-import StoreProduct from "./pages/manufacturer/StoreProduct";
 
 function App() {
   const [theme, colorMode] = useMode();
