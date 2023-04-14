@@ -1,16 +1,4 @@
 import React, { useEffect, useMemo, useState } from "react";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import {useNavigate} from "react-router-dom";
 import { Formik,Field } from "formik";
@@ -36,6 +24,7 @@ export default function SignUp(){
     password:"",
     confirmPassword:""
   });
+
   const navigate = useNavigate();
 
   const [msgError, setmsgError] = useState({
@@ -72,6 +61,7 @@ export default function SignUp(){
 
       if(isFilled && !isError){
         axios
+
         .post(`http://localhost:8080/api/account/signup-owner` ,form)
         .then((res) =>{
 
@@ -80,12 +70,14 @@ export default function SignUp(){
           throw err
         })
         alert("Đăng kí thành công! " )
+
           navigate(`/`);
         
       }else {
         alert("Vui lòng điền đầy đủ thông tin!")
       }     
 }
+
 
 const handleValidate = async() =>{
   const errors = {
