@@ -12,9 +12,52 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 
 export default function Login(){
+
+  const navigate = useNavigate();
+
+  const [form, setForm] = useState({
+    username: "",
+    password: "",
+  });
+
+  const handleChange = (e) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = () => {
+    
+       axios({
+      url: `http://localhost:8080/api/account/login-owner`,
+      method: "POST",
+      responseType: "json",
+      contentType: "application/json",
+      data: form,
+    })
+      .then(function (response) {
+        if (response.data !== "") {
+          localStorage.setItem("tokenOwner", response.data);
+        }
+      })
+      .catch(function (err) {
+        alert("Sai thông tin đăng nhập!");
+        navigate(`/`);
+        console.log(err.response);
+      });
+
+      if(localStorage.getItem("tokenOwner") !==""){
+        navigate(`/calendar`);
+      }
+  };
+
+  
     const theme = createTheme({
         components: {
           MuiButton: {
@@ -56,6 +99,7 @@ export default function Login(){
                 noValidate
                 sx={{ mt: 1 }}
               >
+               
                 <TextField
                   margin="normal"
                   required
@@ -65,6 +109,7 @@ export default function Login(){
                   name="username"
                   autoComplete="username"
                   autoFocus
+                  onChange={handleChange}
                 
                 />
                 <TextField
@@ -76,20 +121,23 @@ export default function Login(){
                   type="password"
                   id="password"
                   autoComplete="current-password"
+                  onChange={handleChange}
                
                 />
-                <FormControlLabel
+                {/* <FormControlLabel
                   control={<Checkbox value="remember" color="primary" />}
                   label="Remember me"
-                />
+                /> */}
                 <Button
                   type="submit"
                   fullWidth
                   variant="contained"
                   sx={{ mt: 3, mb: 2 }}
+                  onClick={handleSubmit}
                 >
                   Sign In
                 </Button>
+             
                 <Grid container>
                   <Grid item xs>
                     <Link href="#" variant="body2">

@@ -9,6 +9,7 @@ import { tokens } from "../../theme";
 import { useTheme } from "@mui/material";
 import ReactPaginate from 'react-paginate';
 import "../../components/Pagination.css"
+import { async } from 'q';
 
 const EmptyFooter = () => {
   return null;
@@ -25,12 +26,17 @@ function Store() {
     ] = useState([])
     const [currentPage, setCurrentPage] = useState(0);
     const ITEMS_PER_PAGE = 4;
-
+    const [isClickRemove, setIsClickRemove] = useState(false);
+    console.log(isClickRemove)
     function getCurrentItems() {
       const startIndex = currentPage * ITEMS_PER_PAGE;
       const endIndex = startIndex + ITEMS_PER_PAGE;
       return responseProductSFDetailDtoList.slice(startIndex, endIndex);
     }
+
+    useEffect(() => {
+      loadStore()
+    },[isClickRemove])
 
     const columns = [
       { field: "id", headerName: "#", flex: 0.2 },
@@ -71,17 +77,19 @@ function Store() {
           type: "button",
           flex: 0.5,
           renderCell: (params)=>{
-            const handleRemoveClick = () => {
+            const handleRemoveClick = async () => {
               console.log(params.row.serialNumber);
-              axios.post(`http://localhost:8080/api/productdetail/remove/${params.row.serialNumber}`, `${params.row.serialNumber}`)
+              await axios.post(`http://localhost:8080/api/productdetail/remove/${params.row.serialNumber}`)
                 .then(res => {
                   if (res.status === HttpStatusCode.Ok) {
                     // console.log(res.status);
+                    setIsClickRemove(prevState => !prevState);
                   }
                 })
                 .catch(err => {
                   console.error(err);
                 });
+                // window.location.reload();
             };
             return (
                 <Button onClick={handleRemoveClick} style={{ backgroundColor: "brown", color: "white"}}>REMOVE</Button>
@@ -90,9 +98,6 @@ function Store() {
         }
     ];
 
-    useEffect(() => {
-        loadStore()
-    },[])
 
     const loadStore = async () => {
         try {
@@ -115,12 +120,12 @@ function Store() {
             });
             
             setResponseProductSFDetailDtoList(products);
-            
           }
         } catch (err) {
           throw err;
         }
       };
+    
 
       return (
         <Box m="20px">
