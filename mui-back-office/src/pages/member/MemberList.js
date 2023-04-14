@@ -23,7 +23,7 @@ export default function MemberList (){
   const columns = [
     { field: "id", headerName: "Id", flex: 0.5 },
     { field: "image", headerName: "Image", width: 70 ,renderCell: (params)=>{
-      // console.log(params.row.image)
+      if(params.row.image){
       const encodedString = params.row.image; // chuỗi mã hóa
       const lastChar = encodedString.charAt(encodedString.length - 1); // lấy ký tự cuối cùng
       const numPadChars = (lastChar === "=" ? 1 : 0) + (lastChar === "==" ? 1 : 0); // tính số ký tự đệm bị bỏ qua
@@ -31,9 +31,12 @@ export default function MemberList (){
       const decodedString = decodeURIComponent(encodedWithoutPadding);
       return (
           <img src={decodedString} alt='' onClick={() => {navigate(`/member/${params.row.id}`)}} style={{width:"40px", height:"40px"}}/>
-        )
-      }
-    },
+        )} else {
+          return(
+            <img src={"https://media.istockphoto.com/id/924949200/vector/404-error-page-or-file-not-found-icon.jpg?s=170667a&w=0&k=20&c=gsR5TEhp1tfg-qj1DAYdghj9NfM0ldfNEMJUfAzHGtU="} alt='Product Pic' onClick={() => {navigate(`/bo/product/${params.row.id}`)}} style={{width:"40px", height:"40px"}}/>
+          )
+        }
+    }},
     {
       field: "fullName",
       headerName: "Name",

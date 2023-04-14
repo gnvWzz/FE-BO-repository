@@ -20,8 +20,13 @@ export default function AddProduct() {
   }, [message]);
 
   const handleSubmit = (values) => {
+    const { size, color, ...data } = values;
+  const sizeColor = { size, color };
+  if (size && color) {
+    data.sizeColor = JSON.stringify(sizeColor);
+  }
     axios
-      .post("http://localhost:8080/bo/product/save", values)
+      .post("http://localhost:8080/bo/product/save", data)
       .then(res => {
         if (res.status === HttpStatusCode.Ok) {
           // setMessage("successfully created");
@@ -125,7 +130,7 @@ export default function AddProduct() {
                 sx={{ gridColumn: "span 2" }}
                 as= {TextField}
               />
-              <Field
+              {/* <Field
                 fullWidth
                 variant="filled"
                 type="text"
@@ -148,7 +153,7 @@ export default function AddProduct() {
                 helperText={touched.color && errors.color}
                 sx={{ gridColumn: "span 2" }}
                 as= {TextField}
-              />
+              /> */}
               <Field
                 fullWidth
                 variant="filled"
@@ -173,18 +178,7 @@ export default function AddProduct() {
                 sx={{ gridColumn: "span 2" }}
                 as= {TextField}
               />
-              <Field
-                fullWidth
-                variant="filled"
-                type="number"
-                label="Quantity"
-                onBlur={handleBlur}
-                name="quantity"
-                error={!!touched.quantity && !!errors.quantity}
-                helperText={touched.quantity && errors.quantity}
-                sx={{ gridColumn: "span 2" }}
-                as= {TextField}
-              />
+          
               <Field
                 fullWidth
                 variant="filled"
@@ -256,6 +250,7 @@ const initialValues = {
     price: "",
     size: "",
     color: "",
+    sizeColor: "",
     weight: "",
     material: "",
     quantity: "",
