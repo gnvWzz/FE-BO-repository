@@ -130,7 +130,7 @@ export default function AddProduct() {
                 sx={{ gridColumn: "span 2" }}
                 as= {TextField}
               />
-              <Field
+              {/* <Field
                 fullWidth
                 variant="filled"
                 type="text"
@@ -153,7 +153,7 @@ export default function AddProduct() {
                 helperText={touched.color && errors.color}
                 sx={{ gridColumn: "span 2" }}
                 as= {TextField}
-              />
+              /> */}
               <Field
                 fullWidth
                 variant="filled"
@@ -178,18 +178,7 @@ export default function AddProduct() {
                 sx={{ gridColumn: "span 2" }}
                 as= {TextField}
               />
-              <Field
-                fullWidth
-                variant="filled"
-                type="number"
-                label="Quantity"
-                onBlur={handleBlur}
-                name="quantity"
-                error={!!touched.quantity && !!errors.quantity}
-                helperText={touched.quantity && errors.quantity}
-                sx={{ gridColumn: "span 2" }}
-                as= {TextField}
-              />
+          
               <Field
                 fullWidth
                 variant="filled"

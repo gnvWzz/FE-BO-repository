@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import {useNavigate, useParams} from 'react-router-dom'
 import axios,{HttpStatusCode} from 'axios';
-import { Grid, Paper, Typography, Box } from '@mui/material';
+import { Grid, Paper, Typography, Box, Button } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Header from '../../components/Header';
 
@@ -48,6 +48,7 @@ export default function ManufacturerInfo() {
         "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
       }}
     >
+      <a href={`/manufacturer/store/${manufacturerId}`}>Update Your store</a>
       <Grid sx={{ gridColumn: "span 2" }}>
           
           <Paper>

@@ -21,7 +21,9 @@ import AddProductImages from "./pages/product/AddProductImages";
 import Login from "./components/Login";
 
 import Layout from "./components/Layout";
-import SignUp from "./components/Signup";
+import SignUp from "./components/SignUp";
+import Store from "./pages/manufacturer/Store";
+import StoreProduct from "./pages/manufacturer/StoreProduct";
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -83,6 +85,7 @@ function App() {
                     <Route exact path="/" element={<Login />}/>
                     <Route exact path="/signup" element={<SignUp />}/>
                           <Route element={<Layout />}>
+                          <Route exact path="/store/:manufacturerId" element={<Store />} />
                             <Route exact path="/member/list" element={<MemberList />} />
                             <Route exact path="/member/add" element={<AddMember />} />
                             {/* <Route exact path="/member/:memberId" element={<Account />} /> */}
@@ -106,36 +109,6 @@ function App() {
     </main>
     </div>
 
-  
-  // <BrowserRouter>
-  //   <ColorModeContext.Provider value={colorMode}>
-  //     <ThemeProvider theme={theme}>
-  //       <CssBaseline/>
-  //         <div className="app">
-  //           <SideBar/>
-  //           <main className="content">
-  //             <Topbar/>
-  //               <Routes>
-  //                 <Route exact path="/member/list" element={<MemberList />} />
-  //                 <Route exact path="/member/add" element={<AddMember />} />
-  //                 {/* <Route exact path="/member/:memberId" element={<Account />} /> */}
-  //                 <Route exact path="/member/add-image/:memberId" element={<AddMemberImage />} />
-  //                 <Route exact path="/manufacturer/add-image/:manufacturerId" element={<AddManufacturerImage />} />
-  //                 <Route exact path="/bo/product/add-image/:productId" element={<AddProductImages />} />
-  //                 <Route exact path="/manufacturer/list" element={<ManufacturerList />} />
-  //                 <Route exact path="/manufacturer/:manufacturerId" element={<ManufacturerInfo/>}/>
-  //                 <Route exact path="/manufacturer/add" element={<AddManufacturer/>}/>
-  //                 <Route exact path="/bo/product/list" element={<ProductList />} />
-  //                 <Route exact path="/bo/product/:productId" element={<ProductInfo/>}/>
-  //                 <Route exact path="/bo/product/add" element={<AddProduct/>}/>
-  //                 {/* <Route exact path="/account" element={<Account/>}/> */}
-  //                 <Route exact path="/calendar" element={<Calendar/>}/>
-  //               </Routes>
-  //           </main>
-  //         </div>
-  //     </ThemeProvider>
-  //   </ColorModeContext.Provider>
-  // </BrowserRouter>
   );
 }
 
