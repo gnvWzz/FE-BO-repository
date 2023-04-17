@@ -58,7 +58,7 @@ function SideBar() {
                 color: "#6870fa !important",
                 },
           }}>
-            <ProSidebar collapsed={isCollapsed} style={{height: "120vh"}}>
+            <ProSidebar collapsed={isCollapsed} style={{height: "110vh"}}>
                 <Menu iconShape="square">
                     {/* LOGO AND MENU ICON */}
                     <MenuItem
@@ -93,7 +93,7 @@ function SideBar() {
                           alt="profile-user"
                           width="100px"
                           height="100px"
-                          src={"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRGFYhnf6nBaMOqeb_dAJmKaONxpEtzDlmU-w&usqp=CAU"}
+                          src={"https://file.vfo.vn/hinh/2014/11/admin.png"}
                           style={{ cursor: "pointer", borderRadius: "50%" }}
                         />
                       </Box>
