@@ -14,21 +14,27 @@ import {
 } from "@mui/material";
 import Header from "../components/Header";
 import { tokens } from "../theme";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 
 const Calendar = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const navigate = useNavigate();
   const [currentEvents, setCurrentEvents] = useState([]);
+  const {state} = useLocation();
+  let isStop = false;
 
-  // useEffect(()=>{
-  //   if(localStorage.getItem("tokenOwner") !==null){
-  //    navigate(`/calendar`)
-  //   }else{
-  //     navigate(`/`)
-  //   }
-  // })
+  useEffect(()=>{
+   
+    if(state ==null){
+      if(!isStop){
+        navigate(`/`);
+      } 
+    }
+    return () => {
+      isStop = true;
+    };
+  },[])
 
   const handleDateClick = (selected) => {
     const title = prompt("Please enter a new title for your event");
