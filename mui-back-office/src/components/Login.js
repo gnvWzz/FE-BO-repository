@@ -20,6 +20,8 @@ export default function Login(){
 
   const navigate = useNavigate();
 
+  const [token,setToken] = useState();
+
   const [form, setForm] = useState({
     username: "",
     password: "",
@@ -44,16 +46,20 @@ export default function Login(){
       .then(function (response) {
         if (response.data !== "") {
           localStorage.setItem("tokenOwner", response.data);
+          setToken(response.data);
         }
       })
       .catch(function (err) {
-        alert("Sai thông tin đăng nhập!");
         navigate(`/`);
+        setTimeout(() => {
+          alert("Sai thông tin đăng nhập!")
+        }, 100);
         console.log(err.response);
       });
 
       if(localStorage.getItem("tokenOwner") !==""){
-        navigate(`/calendar`);
+          navigate(`/calendar`,{state:{token}});
+        
       }
   };
 
