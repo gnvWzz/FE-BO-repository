@@ -18,6 +18,9 @@ import Login from "./components/Login";
 import Layout from "./components/Layout";
 import SignUp from "./components/SignUp";
 import Store from "./pages/manufacturer/Store";
+import UpdateStoreImage from "./pages/manufacturer/UpdateStoreImage";
+import UpdateStoreName from "./pages/manufacturer/UpdateStoreName";
+
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -36,7 +39,10 @@ function App() {
                     <Route exact path="/" element={<Login />}/>
                     <Route exact path="/signup" element={<SignUp />}/>
                           <Route element={<Layout />}>
-                          <Route exact path="/store/:manufacturerId" element={<Store />} />
+                            <Route exact path="/store/:storeId" element={<Store />} />
+                            <Route exact path="/store/image/:storeId" element={<UpdateStoreImage />} />
+                            <Route exact path="/store/name/:storeId" element={<UpdateStoreName />} />
+
                             <Route exact path="/member/list" element={<MemberList />} />
                             <Route exact path="/member/add" element={<AddMember />} />
                             {/* <Route exact path="/member/:memberId" element={<Account />} /> */}

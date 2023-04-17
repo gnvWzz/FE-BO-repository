@@ -288,6 +288,5 @@ const handleValidate = async() =>{
       </div>
     </div>
   );
-  
       
 }
