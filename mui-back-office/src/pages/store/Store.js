@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import {useNavigate, useParams} from 'react-router-dom'
+import {useNavigate, useParams, useLocation} from 'react-router-dom'
 import axios,{HttpStatusCode} from 'axios';
 import { Grid, Paper, Typography, Box, Button, ButtonGroup,ClickAwayListener
 ,Grow,Popper, MenuItem, MenuList} from '@mui/material';
@@ -10,9 +10,9 @@ import { tokens } from "../../theme";
 import { useTheme } from "@mui/material";
 import ReactPaginate from 'react-paginate';
 import { ArrowDropDown } from '@mui/icons-material';
-
-// import {FcEditImage} from 'react-icons/fc';
+import {FcCalendar} from "react-icons/fc"
 import "../../components/Pagination.css"
+import { NOTFOUND_URL } from '../../components/URLS/url';
 
 
 const EmptyFooter = () => {
@@ -26,26 +26,29 @@ function Store() {
     const colors = tokens(theme.palette.mode);
     const navigate = useNavigate();
     const [store, setStore] = useState({});
-    const {storeId} = useParams();
-    const [responseProductSFDetailDtoList
-        , setResponseProductSFDetailDtoList
+    const {accountUsername} = useParams();
+    const [responseProductDetailDtoList
+        , setResponseProductDetailDtoList
     ] = useState([])
     const [currentPage, setCurrentPage] = useState(0);
     const ITEMS_PER_PAGE = 5;
     const [isClickRemove, setIsClickRemove] = useState(false);
-
     const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
   const [selectedIndex, setSelectedIndex] = React.useState(1);
+  const {state} = useLocation();
 
   const handleMenuItemClick = (event, index) => {
     setSelectedIndex(index);
     setOpen(false);
+    if(index == 0){
+      navigate(`/store/product/${accountUsername}`, {state: {store}})
+    }
     if(index == 1){
-      navigate(`/store/name/${storeId}`, {state: {store}})
+      navigate(`/store/name/${accountUsername}`, {state: {store}})
     }
     if(index == 2){
-      navigate(`/store/image/${storeId}`, {state: {store}})
+      navigate(`/store/image/${accountUsername}`, {state: {store}})
     }
   };
 
@@ -64,28 +67,29 @@ function Store() {
     function getCurrentItems() {
       const startIndex = currentPage * ITEMS_PER_PAGE;
       const endIndex = startIndex + ITEMS_PER_PAGE;
-      return responseProductSFDetailDtoList.slice(startIndex, endIndex);
+      console.log("items:",responseProductDetailDtoList);
+      return responseProductDetailDtoList.slice(startIndex, endIndex);
     }
 
     useEffect(() => {
+
       loadStore()
     },[isClickRemove])
+
 
     const columns = [
       { field: "id", headerName: "#", flex: 0.2 },
         { field: "img", headerName: "Image", width: 70 
         ,renderCell: (params)=>{
           if(params.row.img){
-          const ImgURL = params.row.img; // chuỗi mã hóa
-          return (
-              <img src={ImgURL[0]} alt=''style={{width:"40px", height:"40px"}}/>
-            )} else {
-              return(
-                <img src={"https://media.istockphoto.com/id/924949200/vector/404-error-page-or-file-not-found-icon.jpg?s=170667a&w=0&k=20&c=gsR5TEhp1tfg-qj1DAYdghj9NfM0ldfNEMJUfAzHGtU="} alt='Product Pic' onClick={() => {navigate(`/bo/product/${params.row.id}`)}} style={{width:"40px", height:"40px"}}/>
-              )
-            }
+          const ObjImg = params.row.img[0];
+          // xac dinh ObjImg.url undefined
+          const url = ObjImg ? ObjImg.url : NOTFOUND_URL;
+          // console.log("Image url: ", url)
+           return   <img src={url} onClick={() => navigate(`/product/${accountUsername}/${params.row.serialNumber}`)} alt=''style={{width:"40px", height:"40px"}}/>
+           
         }
-      },
+      }},
       {
           field: "serialNumber",
           headerName: "Serial Number",
@@ -95,7 +99,7 @@ function Store() {
           align: "left",
         },
         {
-          field: "price",
+          field: "standardPrice",
           headerName: "Price",
           flex: 1,
         },
@@ -112,7 +116,15 @@ function Store() {
           renderCell: (params)=>{
             const handleRemoveClick = async () => {
               console.log(params.row.serialNumber);
-              await axios.post(`http://localhost:8080/api/productdetail/remove/${params.row.serialNumber}`)
+              await axios({
+                headers: {
+                  'Authorization': `Bearer ${localStorage.getItem("tokenOwner")}`,
+                  "Content-Type": "application/json",
+                },
+                url: `http://localhost:8080/api/productdetail/remove/${params.row.serialNumber}`,
+                method: "POST",
+              })
+              // await axios.post(`http://localhost:8080/api/productdetail/remove/${params.row.serialNumber}`)
                 .then(res => {
                   if (res.status === HttpStatusCode.Ok) {
                     // console.log(res.status);
@@ -130,27 +142,27 @@ function Store() {
           }
         }
     ];
-
+  
 
     const loadStore = async () => {
         try {
           const res = await 
-          // axios.get(`http://localhost:8080/api/store/${storeId}`);
           axios({
             headers: {
               'Authorization': `Bearer ${localStorage.getItem("tokenOwner")}`,
               "Content-Type": "application/json",
             },
-            url: `http://localhost:8080/api/store/${storeId}`,
+            url: `http://localhost:8080/api/store/${accountUsername}`,
             method: "GET",
           })
           if (res.status === HttpStatusCode.Ok) {
             console.log("res.data", res.data);
             setStore({curName: res.data.name, image: res.data.image});
-            setResponseProductSFDetailDtoList(res.data.responseProductSFDetailDtoList)
-            // console.log(res.data.responseProductSFDetailDtoList)
-            const products = res.data.responseProductSFDetailDtoList.map((product, index) => {
+            setResponseProductDetailDtoList(res.data.responseProductDetailDtoList)
+            // console.log(res.data.responseProductDetailDtoList)
+            const products = res.data.responseProductDetailDtoList.map((product, index) => {
               const {  size, color, img,quantity } = JSON.parse(product.size_color_img_quantity);
+              console.log(JSON.parse(product.size_color_img_quantity))
               return {
                 ...product,
                 id: index + 1,
@@ -161,7 +173,7 @@ function Store() {
               };
             });
             
-            setResponseProductSFDetailDtoList(products);
+            setResponseProductDetailDtoList(products);
           }
         } catch (err) {
           throw err;
@@ -175,7 +187,18 @@ function Store() {
         title="STORE INFO"
         subtitle="Store Info for Future Reference"
       />
-      <Box m="0 0 20px 20px">
+      
+      <Box
+        display="grid"
+        gap="20px" marginLeft={"20px"} marginRight={"20px"}
+        gridTemplateColumns="repeat(3, minmax(0, 1fr))"
+        sx={{
+          "& > div": { gridColumn: isNonMobile ? undefined : "span 3" },
+        }}
+      >
+        
+        <Grid sx={{ gridColumn: "span 1" }}>
+        <Box m="0 0 20px 20px">
         <Grid container direction="column" alignItems="left">
           <Grid item xs={12}>
             <ButtonGroup variant="contained" color="info" ref={anchorRef} aria-label="split button">
@@ -221,28 +244,22 @@ function Store() {
           </Grid>
         </Grid>
       </Box>
-
-      <Box
-        display="grid"
-        gap="20px" marginLeft={"20px"} marginRight={"20px"}
-        gridTemplateColumns="repeat(3, minmax(0, 1fr))"
-        sx={{
-          "& > div": { gridColumn: isNonMobile ? undefined : "span 3" },
-        }}
-      >
-        
-        <Grid sx={{ gridColumn: "span 1" }}>
           <Paper>
-            <Typography variant="h2" align="center" style={{maxWidth: "100%", height: "2em", padding: "0.5em", backgroundColor: "skyblue", color: "purple"}}>
+            <Typography variant="h2" align="center" style={{maxWidth: "100%", height: "2em", padding: "0.5em", backgroundColor: "orange", color: "black"}}>
                 {store.curName}
             </Typography>
             <Box>
-              <img alt="Product Pic" src={store.image} style={{maxWidth: "100%", height: "auto", padding: "1em", backgroundColor: "skyblue"}}/>
+              <img alt="Product Pic" src={store.image} style={{maxWidth: "100%", height: "auto", padding: "1em", backgroundColor: "orange"}}/>
             </Box>
           </Paper>
         </Grid>
 
         <Grid sx={{ gridColumn: "span 2" }}>
+          <Typography variant='h3' align='right'>
+            <FcCalendar onClick={() => navigate(`/calendar/${accountUsername}`)} style={{width: "50px", height: "50px"}}/> Calendar</Typography>
+          <Typography variant="h2" align="center" style={{maxWidth: "100%", height: "2em", padding: "0.5em", backgroundColor: "skyblue", color: "purple"}}>
+              Your products
+          </Typography>
           <Box
             m="0px 0 0 0"
             height="60vh"
@@ -287,7 +304,7 @@ function Store() {
           <ReactPaginate
             previousLabel={'Previous'}
             nextLabel={'Next'}
-            pageCount={Math.ceil(responseProductSFDetailDtoList.length / ITEMS_PER_PAGE)}
+            pageCount={Math.ceil(responseProductDetailDtoList.length / ITEMS_PER_PAGE)}
             onPageChange={({ selected }) => setCurrentPage(selected)}
             containerClassName={'pagination'}
             activeClassName={'active'}

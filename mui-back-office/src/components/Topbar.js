@@ -1,4 +1,4 @@
-import { Box, IconButton, useTheme } from "@mui/material";
+import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { useContext } from "react";
 import { ColorModeContext, tokens } from "../theme";
 import InputBase from "@mui/material/InputBase";
@@ -16,7 +16,7 @@ export default function Topbar() {
   return (
     <Box display="flex" justifyContent="space-between" p={2}>
       {/* SEARCH BAR */}
-      <Box
+      {/* <Box
         display="flex"
         backgroundColor={colors.primary[400]}
         borderRadius="3px"
@@ -25,6 +25,9 @@ export default function Topbar() {
         <IconButton type="button" sx={{ p: 1 }}>
           <SearchIcon />
         </IconButton>
+      </Box> */}
+      <Box display="flex">
+        <Typography p="10px 0 0 40px" variant="h2" color={"lightskyblue"}>Business to Business Company</Typography>
       </Box>
 
       {/* ICONS */}

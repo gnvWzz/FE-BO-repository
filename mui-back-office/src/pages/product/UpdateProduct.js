@@ -7,7 +7,7 @@ import Header from '../../components/Header';
 import '../../components/ProductInfo.css'
 import { NOTFOUND_URL } from '../../components/URLS/url';
 
-function ProductInfo() {
+export default function UpdateProduct() {
   const isNonMobile = useMediaQuery("(min-width:600px)");
   const {accountUsername} = useParams();
   const {serialNumber} = useParams();
@@ -62,19 +62,6 @@ function ProductInfo() {
     }
   };
 
-  const showImage = () => {
-    if (sciq.img !== undefined) {
-      if (sciq.img[0] !== undefined) {
-        return (
-          <img alt="Product Pic" src={sciq.img[0].url} style={{ maxWidth: "100%", height: "auto", padding: "3em" }} />
-        )
-      } else {
-        return (
-          <img alt="Product Pic" src={NOTFOUND_URL} style={{ maxWidth: "100%", height: "auto", padding: "3em" }} />
-        )
-      }
-    }
-  }
   return (
     <Box m="20px">
       <Header
@@ -82,27 +69,9 @@ function ProductInfo() {
         subtitle="Product Info for Future Reference"
       />
       
-      <Box
-        display="grid"
-        gap="20px" marginLeft={"20px"} marginRight={"20px"}
-        gridTemplateColumns="repeat(5, minmax(0, 1fr))"
-        sx={{
-          "& > div": { gridColumn: isNonMobile ? undefined : "span 5" },
-        }}
-      >
 
-        <Grid sx={{ gridColumn: "span 2" }} >
-          <Paper style={{maxWidth: "100%", height: "auto", padding: "1em", backgroundColor: "orange"}}>
-            <Button onClick={() => navigate(`/store/${accountUsername}`)} variant="contained" color="primary">
-              Return store
-            </Button>
-            <Box>
-              {showImage()}
-            </Box>
-          </Paper>
-        </Grid>
 
-        <Grid sx={{ gridColumn: "span 3" }}>
+        <Grid>
           <Paper style={{maxWidth: "100%", height: "auto", padding: "1em",color: "primary", backgroundColor: "skyblue"}}>
             <Typography variant="h3" align="center" paddingBottom={"1em"} color="primary">
               {product.productName}
@@ -158,14 +127,11 @@ function ProductInfo() {
 
             {/* <a href="#" className="btn btn-primary">My Sales Performance</a>
                 <a href="#" className="btn btn-primary">Team Sales Performance</a> */}
-            <Button onClick={() => navigate(`/product/edit/${accountUsername}/${serialNumber}`)} variant="contained" color="primary">
-              Edit product
+            <Button onClick={() => navigate(`/product/${accountUsername}/${serialNumber}`)} variant="contained" color="primary">
+              Return
             </Button>
           </Paper>
         </Grid>
       </Box>
-    </Box>
   )
 }
-
-export default ProductInfo

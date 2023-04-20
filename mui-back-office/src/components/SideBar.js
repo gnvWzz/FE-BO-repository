@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useParams } from "react-router-dom";
 import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
@@ -13,12 +14,13 @@ import ProductionQuantityLimitsIcon from '@mui/icons-material/ProductionQuantity
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
 import BarChartOutlinedIcon from "@mui/icons-material/BarChartOutlined";
-import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutlined";
+// import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutlined";
 import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
+    // const {storeId} = useParams;
     return (
       <MenuItem
         active={selected === title}
@@ -104,10 +106,11 @@ function SideBar() {
                           fontWeight="bold"
                           sx={{ m: "10px 0 0 0" }}
                         >
-                          Inori Minase
+                          Admin
+                          {/* {storeId} */}
                         </Typography>
                         <Typography variant="h5" color={colors.greenAccent[500]}>
-                          VP Fancy Admin
+                          Store Admin
                         </Typography>
                       </Box>
                     </Box>
@@ -187,13 +190,13 @@ function SideBar() {
                       selected={selected}
                       setSelected={setSelected}
                     />
-                    <Item
+                    {/* <Item
                       title="Pie Chart"
                       to="/pie"
                       icon={<PieChartOutlineOutlinedIcon />}
                       selected={selected}
                       setSelected={setSelected}
-                    />
+                    /> */}
                     <Item
                       title="Line Chart"
                       to="/line"
