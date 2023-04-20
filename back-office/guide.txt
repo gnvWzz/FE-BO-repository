@@ -1,9 +1,0 @@
-npx create-react-app back-office
-npm i react-router-dom
-npm i react-icons
-npm i antd
-npm i axios
-
-npm i react-paginate    (thư viện phân trang react)
-
-#Product.js, Customer.js lấy từ https://bootsnipp.com/snippets/8MPnQ
