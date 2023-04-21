@@ -10,7 +10,7 @@ import { tokens } from "../../theme";
 import { useTheme } from "@mui/material";
 import ReactPaginate from 'react-paginate';
 import { ArrowDropDown } from '@mui/icons-material';
-import {FcCalendar} from "react-icons/fc"
+// import {FcCalendar} from "react-icons/fc"
 import "../../components/Pagination.css"
 import { NOTFOUND_URL } from '../../components/URLS/url';
 
@@ -255,8 +255,8 @@ function Store() {
         </Grid>
 
         <Grid sx={{ gridColumn: "span 2" }}>
-          <Typography variant='h3' align='right'>
-            <FcCalendar onClick={() => navigate(`/calendar/${accountUsername}`)} style={{width: "50px", height: "50px"}}/> Calendar</Typography>
+          {/* <Typography variant='h3' align='right'>
+            <FcCalendar onClick={() => navigate(`/calendar/${accountUsername}`)} style={{width: "50px", height: "50px"}}/> Calendar</Typography> */}
           <Typography variant="h2" align="center" style={{maxWidth: "100%", height: "2em", padding: "0.5em", backgroundColor: "skyblue", color: "purple"}}>
               Your products
           </Typography>

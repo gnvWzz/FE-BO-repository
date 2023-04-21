@@ -13,7 +13,8 @@ import UpdateStoreName from "./pages/store/UpdateStoreName";
 import FirstForm from "./pages/product/FirstForm";
 import SecondForm from "./pages/product/SecondForm";
 import ThirdForm from "./pages/product/ThirdForm";
-import UpdateProduct from "./pages/product/UpdateProduct";
+import UpdateProductGeneralInfo from "./pages/product/UpdateProductGeneralInfo";
+import UpdateProductDetailInfo from "./pages/product/UpdateProductDetailInfo";
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -38,7 +39,8 @@ function App() {
                             <Route exact path="/store/secondForm/:accountUsername" element={<SecondForm />} />
                             <Route exact path="/store/thirdForm/:accountUsername" element={<ThirdForm />} />
                             <Route exact path="/product/:accountUsername/:serialNumber" element={<ProductInfo/>}/>
-                            <Route exact path="/product/edit/:accountUsername/:serialNumber" element={<UpdateProduct/>}/>
+                            <Route exact path="/product/edit/general/:accountUsername/:serialNumber" element={<UpdateProductGeneralInfo/>}/>
+                            <Route exact path="/product/edit/detail/:accountUsername/:serialNumber" element={<UpdateProductDetailInfo/>}/>
                             <Route exact path="/calendar/:accountUsername" element={<Calendar/>}/>
                             </Route>               
                   </Routes>
