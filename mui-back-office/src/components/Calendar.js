@@ -16,7 +16,7 @@ import Header from "../components/Header";
 import { tokens } from "../theme";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 
-const Calendar = () => {
+export default function Calendar (){
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const navigate = useNavigate();
@@ -144,4 +144,3 @@ const Calendar = () => {
   );
 };
 
-export default Calendar;

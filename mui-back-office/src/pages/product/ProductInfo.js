@@ -20,8 +20,9 @@ function ProductInfo() {
   })
   const [product, setProduct] = useState({
     productName: "",
-    serialNumber: "",
     category: "",
+    manufacturer: "",
+    serialNumber: "",
     standardPrice: "",
     briefDescription: "",
     fullDescription: "",
@@ -114,19 +115,31 @@ function ProductInfo() {
                   <td>{product.productName}</td>
                 </tr>
                 <tr>
-                  <td>Serial Number</td>
-                  <td>{product.serialNumber}</td>
-                </tr>
-                <tr>
                   <td>Category</td>
                   <td>{product.category}</td>
+                </tr>
+                <tr>
+                  <td>Manufacturer</td>
+                  <td>{product.manufacturer}</td>
+                </tr>
+                <Button onClick={() => navigate(`/product/edit/general/${accountUsername}/${serialNumber}`)} variant="contained" color="primary">
+                  Edit general info
+                </Button>
+                <tr>
+                  <td colSpan="2">
+                    <hr/>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Serial Number</td>
+                  <td>{product.serialNumber}</td>
                 </tr>
                 <tr>
                   <td>Standard Price</td>
                   <td>{product.standardPrice}</td>
                 </tr>
                 <tr>
-                  <td>Quantity</td>
+                  <td>Stock</td>
                   <td>{sciq.quantity}</td>
                 </tr>
                 <tr>
@@ -158,8 +171,9 @@ function ProductInfo() {
 
             {/* <a href="#" className="btn btn-primary">My Sales Performance</a>
                 <a href="#" className="btn btn-primary">Team Sales Performance</a> */}
-            <Button onClick={() => navigate(`/product/edit/${accountUsername}/${serialNumber}`)} variant="contained" color="primary">
-              Edit product
+            
+            <Button onClick={() => navigate(`/product/edit/detail/${accountUsername}/${serialNumber}`)} variant="contained" color="primary">
+              Edit detail info
             </Button>
           </Paper>
         </Grid>
