@@ -8,7 +8,7 @@ import Header from '../../components/Header';
 
 const firstFormSchema = yup.object().shape({
     name: yup.string().required("Product's Name is required"),
-    packageId: yup.string().required("Package ID is required"),
+    // packageId: yup.string().required("Package ID is required"),
     category: yup.string().required('Category is required'),
     // sizes: yup.string().required("Sizes is required"),
     // colors: yup.string().required("Colors is required"),
