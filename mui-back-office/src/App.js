@@ -1,7 +1,6 @@
 import { ColorModeContext, useMode } from "./theme";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { Routes,Route, BrowserRouter } from "react-router-dom";
-import ProductList from "./pages/product/ProductList";
 import ProductInfo from "./pages/product/ProductInfo";
 import Calendar from "./components/Calendar";
 import Login from "./components/Login";
