@@ -203,7 +203,7 @@ export default function FirstForm() {
                 <button type="submit">Generate</button><br/>
                 {/* <Button style={{backgroundColor: "#007bff"}} type="submit">Generate</Button><br/> */}
                 <button onClick={clearAllData} style={{backgroundColor: "orange"}}>Clear</button>
-                <button onClick={() => navigate(`/store/${accountUsername}`)} style={{backgroundColor: "orange"}}>Return</button>
+                <button onClick={() => navigate(`/store/${accountUsername}`)} style={{backgroundColor: "blue"}}>Return</button>
             </Box>
             </Form>)}
             </Formik>
