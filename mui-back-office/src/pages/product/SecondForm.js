@@ -1,10 +1,10 @@
-import axios from 'axios';
 import { useEffect, useState, } from 'react';
 import { useLocation, useNavigate, useParams} from 'react-router-dom';
-import { Box, Button, TextField, InputLabel, MenuItem, FormControl, Select} from "@mui/material";
+import { Button} from "@mui/material";
 import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
 import ClearAllIcon from '@mui/icons-material/ClearAll';
 import KeyboardTabIcon from '@mui/icons-material/KeyboardTab';
+import '../../components/ProductInfo.css'
 
 export default function SecondForm() {
     const {accountUsername} = useParams();
@@ -248,10 +248,10 @@ export default function SecondForm() {
             <div className='product-creating-information'>
                 <table>
                     <tr>
-                        <th>
+                        <th style={{width: '50%'}}>
                             <h3>Name: </h3>
                         </th>
-                        <td>
+                        <td style={{width: '50%'}}>
                             {product.name}
                         </td>
                     </tr>
@@ -274,13 +274,11 @@ export default function SecondForm() {
                 </table>
             </div>
 
-            <br />
-            <br />
             <hr />
-            <h2>Please enter your basic product's details</h2>
+            <h2  className='marginlr'>Please enter your basic product's details</h2>
             <br />
-            <div style={{display: "flex", flexDirection: "row"}}>
-        <div style={{flex: 1, marginRight: "20px"}}>
+    <div style={{display: "flex", flexDirection: "row"}}>
+        <div style={{flex: 1}}>
             <h4>Serial number*:</h4>
             <br />
             <input type='text' name="serialNumber" value={productDetail.serialNumber} onChange={handleChangeInputForProductDetail}></input>
@@ -337,16 +335,18 @@ export default function SecondForm() {
         </div>
             <br />
             <hr />
-            <h2>This is part for your product's variant input including sizes, colors, images and stocks for each product detail record in your database.</h2>
+            <h3 className='marginlr'>This is part for your product's variant input including sizes, colors, images and stocks for each product detail record in your database.</h3>
             <br />
-            <br />
-            <h3>Size: </h3>
+    <div style={{display: "flex", flexDirection: "row"}}>
+        <div style={{flex: 1}}>
+            <h3>Size*: </h3>
             {showSizesDropdown()}
-            <br />
-            <br />
-            <h3>Color: </h3>
+        </div>
+        <div style={{flex: 1}}>
+            <h3>Color*: </h3>
             {showColorsDropdown()}
-            <br />
+        </div>
+    </div>    
             <br />
             <h3>Stock*: </h3>
             <br />
@@ -380,15 +380,15 @@ export default function SecondForm() {
             <button type='button' className='btn btn-success mt-2' onClick={setImgListOfSciq}>Decide to finish this image list for this product's variant</button>
             <br />
             <br />
-            <h3>When finish all variant's details, click this button to create this variant for your product</h3>
+            <h3 className='marginlr'>When finish all variant's details, click this button to create this variant for your product</h3>
             <br />
             <button type='button' className='btn btn-success' onClick={setSciqOfProductDetail}>Finish this variant</button>
             <hr />
-            <h2>This section is for when you finish all your product details and variants respectively</h2>
+            <h3 className='marginlr'>This section is for when you finish all your product details and variants respectively</h3>
             <br />
             <button type='button' className='btn btn-warning' onClick={setProductSFDetailOfProduct}>Set product details</button>
             <hr />
-            <h2>This section is for creating a new product to your database</h2>
+            <h3 className='marginlr'>This section is for creating a new product to your database</h3>
             <br />
             <Button
                 type="button"

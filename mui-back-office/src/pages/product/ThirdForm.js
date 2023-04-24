@@ -5,7 +5,7 @@ import { API_URL } from '../../components/URLS/url';
 import SaveIcon from '@mui/icons-material/Save';
 import ClearAllIcon from '@mui/icons-material/ClearAll';
 import { Button} from "@mui/material";
-
+import '../../components/ProductInfo.css'
 
 export default function ThirdForm() {
     const {accountUsername} = useParams();
@@ -140,7 +140,7 @@ export default function ThirdForm() {
 
     const showPricesTable = (e) => {
         return (
-            <div>
+            <div className='marginlr'>
                 <tr>
                     <th>
                         Price ID
@@ -211,22 +211,22 @@ export default function ThirdForm() {
             <button type='button' className='btn btn-warning mt-3 ml-2' onClick={showCurrentTempPricesList}>Show current temp prices list</button> */}
             {/* <button type='button' className='btn btn-warning mt-3 ml-2' onClick={showCurrentJSONProduct}>Show current JSON product</button> */}
             <hr />
-            <h3 className='mt-3'>First, enter the from-quantity for your price discount limit</h3>
+            <h3 className='marginlr'>First, enter the from-quantity for your price discount limit</h3>
             <input className='mt-2' type='text' name='fromQuantity' onChange={handleInputPriceObj} />
-            <h3 className='mt-5'>Second, enter the to-quantity for your price discount limit</h3>
+            <h3 className='marginlr'>Second, enter the to-quantity for your price discount limit</h3>
             <input className='mt-2' type='text' name='toQuantity' onChange={handleInputPriceObj} />
-            <h3 className='mt-5'>Finally, enter the price for discount limit</h3>
+            <h3 className='marginlr'>Finally, enter the price for discount limit</h3>
             <input className='mt-2' type='text' name='price' onChange={handleInputPriceObj} />
             <hr />
-            <h2 className='mt-5'>When finishing the above information, create price object and add it to a temp product prices list.</h2>
+            {/* <h3 className='marginlr'>When finishing the above information, create price object and add it to a temp product prices list.</h3> */}
             <button type='button' onClick={addToTempPricesList} className='btn btn-primary mt-2'>Create new price object</button>
             <table className='prices-information mt-2'>
                 {showPricesTable()}
             </table>
-            <h2 className='mt-5'>Now, if this temp product prices list is done, you can press this button to finish current price object</h2>
+            <h3 className='marginlr'>If this temp product prices list is done, you can press this button to finish current price object</h3>
             <button type='button' onClick={addPriceObjToOfficialPricesList} className='btn btn-success mt-2'>Set temp prices list to official prices list</button>
             <hr />
-            <h2 className='mt-5'>This section is for finalizing your prices list of your product</h2>
+            <h3 className='marginlr'>This section is for finalizing your prices list of your product</h3>
             <button className='btn btn-warning mt-2' type='button' onClick={createPricesListForCurrentProduct}>Confirm current prices list</button>
             <hr />
             
@@ -235,7 +235,7 @@ export default function ThirdForm() {
                 variant="contained"
                 color="info"
                 onClick={saveProductToDatabase}
-                sx={{ width: "150px", height: "40px"}}
+                sx={{ width: "150px", height: "40px", mb: "20px"}}
                 startIcon={<SaveIcon />}
               >
                 Save product
