@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { useEffect, useState, } from 'react';
 import { useLocation, useNavigate, useParams} from 'react-router-dom';
-// import "../../components/CreateProductFormCSS.css"
+import { Box, Button, TextField, InputLabel, MenuItem, FormControl, Select} from "@mui/material";
+import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
 
 export default function SecondForm() {
     const {accountUsername} = useParams();
@@ -178,7 +179,7 @@ export default function SecondForm() {
     //
 
     //Set size_color_image_quantity of product detail
-    const setSizeColorImageQuantityOfProductDetail = () => {
+    const setSciqOfProductDetail = () => {
         setProductDetail({ ...productDetail, size_color_img_quantity: JSON.stringify(sciq) });
         setSCIQ({
             ...sciq,
@@ -246,7 +247,12 @@ export default function SecondForm() {
     return (
         <div style={{ textAlign: "center" }}>
             <h1>Create new product</h1>
-            <button type='button' className='mt-2' onClick={backToFirstForm}>Back to first form</button>
+            {/* <button type='button' className='mt-2' onClick={backToFirstForm}>Back to first form</button> */}
+            <Button 
+                startIcon={<KeyboardReturnIcon />}
+                onClick={backToFirstForm} variant="contained" color="secondary" sx={{ width: '200px', height: '40px'}}>
+                Back to first form
+            </Button>
             <br />
             <h4>Press this button only for when you enter any wrong input and you want to reset all data for avoiding mistaken information</h4>
             <button type='button' className='btn btn-danger mt-2' onClick={resetAllData}>Reset all data</button>
@@ -400,16 +406,16 @@ export default function SecondForm() {
             <br />
             <h3>When finish all variant's details, click this button to create this variant for your product</h3>
             <br />
-            <button type='button' className='btn btn-success' onClick={setSizeColorImageQuantityOfProductDetail}>Finish this variant</button>
+            <button type='button' className='btn btn-success' onClick={setSciqOfProductDetail}>Finish this variant</button>
             <hr />
-            <h2>This section is for when you finish one product detail for your product</h2>
+            {/* <h2>This section is for when you finish one product detail for your product</h2>
             <br />
             <h3>Click this button to push current product detail to a temp product details list. Then, you can continue to add new product details</h3>
             <br />
             <button type='button' className='btn btn-success' onClick={showCurrentProductDetail}>Show current product detail</button>
             <br />
             <br />
-            <hr />
+            <hr /> */}
             <h2>This section is for when you finish all your product details and variants respectively</h2>
             <br />
             <button type='button' className='btn btn-success' onClick={setProductSFDetailOfProduct}>Set product details for this current product</button>

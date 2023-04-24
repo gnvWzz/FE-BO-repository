@@ -1,18 +1,33 @@
-import { Box, IconButton, Typography, useTheme } from "@mui/material";
+import { useState } from "react";
+import { Box, IconButton, Typography, useTheme, Popover, List, ListItem, ListItemIcon, ListItemText } from "@mui/material";
 import { useContext } from "react";
 import { ColorModeContext, tokens } from "../theme";
 import InputBase from "@mui/material/InputBase";
+import { useNavigate } from "react-router-dom";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import SearchIcon from "@mui/icons-material/Search";
+import LogoutIcon from "@mui/icons-material/Logout";
 
 export default function Topbar() {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const colorMode = useContext(ColorModeContext);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const navigate = useNavigate();
+  const handleOpenMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
 
+  const handleCloseMenu = () => {
+    setAnchorEl(null);
+  };
+
+  const handleLogout = () => {
+    navigate("/")
+  };
   return (
     <Box display="flex" justifyContent="space-between" p={2}>
       {/* SEARCH BAR */}
@@ -27,7 +42,7 @@ export default function Topbar() {
         </IconButton>
       </Box> */}
       <Box display="flex">
-        <Typography p="10px 0 0 40px" variant="h2" color={"lightskyblue"}>Business to Business Company</Typography>
+        <Typography p="10px 0 0 30px" variant="h2" color={"lightskyblue"}>Business to Business Company</Typography>
       </Box>
 
       {/* ICONS */}
@@ -42,12 +57,32 @@ export default function Topbar() {
         <IconButton>
           <SettingsOutlinedIcon />
         </IconButton>
-        <IconButton>
+        <IconButton onClick={handleOpenMenu}>
           <PersonOutlinedIcon />
         </IconButton>
+        <Popover
+          open={Boolean(anchorEl)}
+          anchorEl={anchorEl}
+          onClose={handleCloseMenu}
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "center",
+          }}
+          transformOrigin={{
+            vertical: "top",
+            horizontal: "center",
+          }}
+        >
+          <List>
+            <ListItem button onClick={handleLogout}>
+              <ListItemIcon>
+                <LogoutIcon />
+              </ListItemIcon>
+              <ListItemText primary="Logout" />
+            </ListItem>
+          </List>
+        </Popover>
       </Box>
     </Box>
   );
 };
-
-

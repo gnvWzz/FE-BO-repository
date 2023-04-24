@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import axios, { HttpStatusCode } from 'axios';
-import { Box, Button, TextField, InputLabel, MenuItem, FormControl, Select, Typography} from "@mui/material";
+import { Box, Button, TextField, MenuItem, Select, Typography, Snackbar} from "@mui/material";
 import '../../components/ProductInfo.css'
 import { Formik, Form , Field} from "formik";
 import * as yup from "yup";
@@ -31,9 +31,11 @@ export default function UpdateProduct() {
     category: "",
     manufacturer: "",
   });
+  const [message, setMessage] = useState("");
+
   useEffect(() => {
     loadProduct()
-  }, [])
+  }, [message])
 
   const loadProduct = async () => {
     try {
@@ -73,6 +75,7 @@ export default function UpdateProduct() {
         })
         .catch(err => {
           console.error(err);
+          setMessage("This name was existed");
         });
     }
 
@@ -82,40 +85,40 @@ export default function UpdateProduct() {
     }
 
   return (
-    <Box m="20px">
+    <Box m="20px 30px 0 30px">
       <Header
         title="UPDATE GENERAL INFO"
         subtitle="Update product general info"
       />
       <Formik
-                    initialValues={initialValues}
-                    validationSchema={updateGeneralSchema}
-                    onSubmit={saveGeneralInfo}
+          initialValues={initialValues}
+          validationSchema={updateGeneralSchema}
+          onSubmit={saveGeneralInfo}
+      >
+            {({
+                errors,
+                touched,
+                handleBlur, 
+                setFieldValue,
+                }) => (
+            <Form>
+            <Box
+                display="grid"
+                gap="30px"
+                gridTemplateColumns="repeat(4, minmax(0, 1fr))"
+                sx={{
+                    "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
+                    "& .Mui-error": {
+                        color: "red"
+                      }
+                }}
+                ml="20px" mr="20px"
                 >
-                {({
-                    errors,
-                    touched,
-                    handleBlur, 
-                    setFieldValue,
-                    }) => (
-                <Form>
-                <Box
-                    display="grid"
-                    gap="30px"
-                    gridTemplateColumns="repeat(4, minmax(0, 1fr))"
-                    sx={{
-                        "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
-                        "& .Mui-error": {
-                            color: "red"
-                          }
-                    }}
-                    ml="20px" mr="20px"
-                    >
-                <Box sx={{ gridColumn: "span 2" }}>
-                <Typography style={{margin: "0 0 10px 10px"}}>
-                  Product's Name
-                </Typography>
-                <Field
+                <Box sx={{ gridColumn: "span 3" }}>
+                  <Typography style={{margin: "0 0 10px 10px"}}>
+                    Product Name
+                  </Typography>
+                  <Field
                     fullWidth
                     variant="filled"
                     type="text"
@@ -123,7 +126,7 @@ export default function UpdateProduct() {
                     onBlur={handleBlur}
                     error={touched.newName && !!errors.newName}
                     helperText={touched.newName && errors.newName}
-                    // label="Product's Name"
+                    // label="Product Name"
                     name="newName"
                     placeholder={requestProductGeneralInfoDto.curName}
                     // value={product.name}
@@ -132,17 +135,16 @@ export default function UpdateProduct() {
                         handleInput(e);
                     }}
                     as={TextField}
-                />
+                  />
                 </Box>
-                <Box sx={{ gridColumn: "span 2" }}>
-                <Typography style={{margin: "0 0 10px 10px"}}>
-                  Category
-                </Typography>
-                <Field
+                <Box sx={{ gridColumn: "span 3" }}>
+                  <Typography style={{margin: "0 0 10px 10px"}}>
+                    Category
+                  </Typography>
+                  <Field
                     fullWidth
                     variant="filled"
                     name="category"
-                    // label="Category"
                     value={requestProductGeneralInfoDto.category}
                     onChange={(e) => {
                         setFieldValue('category', e.target.value);
@@ -159,58 +161,62 @@ export default function UpdateProduct() {
                     {['Computer', 'Toy', 'Watch', 'Cloth', 'Shoes', 'HandBag', 'Accessory', 'Electronics'].map((category) => (
                         <MenuItem key={category} value={category}>{category}</MenuItem>
                     ))}
-                    </Field>
-                    </Box>
-                    <Box sx={{ gridColumn: "span 2" }}>
-                <Typography style={{margin: "0 0 10px 10px"}}>
-                  Manufacturer
-                </Typography>
-                <Field
-                    fullWidth
-                    variant="filled"
-                    type="text"
-                    onBlur={handleBlur}               
-                    error={touched.manufacturer && !!errors.manufacturer}
-                    helperText={touched.manufacturer && errors.manufacturer}
-                    // label="Manufacturer"
-                    name="manufacturer"
-                    placeholder={requestProductGeneralInfoDto.manufacturer}
-                    // value={product.manufacturer}
-                    onChange={(e) => {
-                        setFieldValue("manufacturer", e.target.value);
-                        handleInput(e);
-                    }}
-                    as={TextField}
-                />
+                  </Field>
                 </Box>
-                
-                <Box
-                  sx={{
-                    gridColumn: "span 4",
-                    display: "flex",
-                    justifyContent: "left",
-                    alignItems: "flex-end",
-                    gridRow: "3 / 4"
-                  }}
-                >
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    color="secondary"
-                    sx={{ width: "100px", height: "40px", mr: "20px"}}
-                    startIcon={<SaveIcon />}
-                  >
-                    Save
-                  </Button>
-                  <Button 
-                    startIcon={<KeyboardReturnIcon />}
-                    onClick={() => navigate(`/product/${accountUsername}/${serialNumber}`)} variant="contained" color="secondary" sx={{ width: '100px', height: '40px'}}>
-                    Return
-                  </Button>
+                <Box sx={{ gridColumn: "span 3" }}>
+                  <Typography style={{margin: "0 0 10px 10px"}}>
+                    Manufacturer
+                  </Typography>
+                  <Field
+                      fullWidth
+                      variant="filled"
+                      type="text"
+                      onBlur={handleBlur}               
+                      error={touched.manufacturer && !!errors.manufacturer}
+                      helperText={touched.manufacturer && errors.manufacturer}
+                      name="manufacturer"
+                      placeholder={requestProductGeneralInfoDto.manufacturer}
+                      onChange={(e) => {
+                          setFieldValue("manufacturer", e.target.value);
+                          handleInput(e);
+                      }}
+                      as={TextField}
+                  />
                 </Box>
-              </Box>
-            </Form>)}
-            </Formik>
-      </Box>
+            
+            <Box
+              sx={{
+                gridColumn: "span 4",
+                display: "flex",
+                justifyContent: "left",
+                alignItems: "flex-end",
+                gridRow: "4 / 4"
+              }}
+            >
+              <Button
+                type="submit"
+                variant="contained"
+                color="info"
+                sx={{ width: "100px", height: "40px", mr: "20px"}}
+                startIcon={<SaveIcon />}
+              >
+                Save
+              </Button>
+              <Button 
+                startIcon={<KeyboardReturnIcon />}
+                onClick={() => navigate(`/product/${accountUsername}/${serialNumber}`)} variant="contained" color="error" sx={{ width: '100px', height: '40px'}}>
+                Return
+              </Button>
+            </Box>
+          </Box>
+        </Form>)}
+      </Formik>
+      <Snackbar
+          open={!!message}
+          autoHideDuration={5000}
+          onClose={() => setMessage("")}
+          message={message}
+        />
+    </Box>
   )
 }
