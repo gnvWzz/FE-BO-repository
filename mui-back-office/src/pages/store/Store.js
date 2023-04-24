@@ -33,8 +33,8 @@ function Store() {
     const ITEMS_PER_PAGE = 5;
     const [isClickRemove, setIsClickRemove] = useState(false);
     const [open, setOpen] = React.useState(false);
-  const anchorRef = React.useRef(null);
-  const [selectedIndex, setSelectedIndex] = React.useState(1);
+    const anchorRef = React.useRef(null);
+    const [selectedIndex, setSelectedIndex] = React.useState(1);
   // const {state} = useLocation();
 
   const handleMenuItemClick = (event, index) => {
@@ -207,7 +207,8 @@ function Store() {
         <Grid container direction="column" alignItems="left">
           <Grid item xs={12}>
             <ButtonGroup variant="contained" color="info" ref={anchorRef} aria-label="split button">
-              <Button>{options[selectedIndex]}</Button>
+              <Button>Select an option</Button>
+              {/* <Button>{options[selectedIndex]}</Button> */}
               <Button
                 color="info"
                 size="small"
