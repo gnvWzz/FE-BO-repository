@@ -382,11 +382,11 @@ export default function SecondForm() {
             <br />
             <h3 className='marginlr'>When finish all variant's details, click this button to create this variant for your product</h3>
             <br />
-            <button type='button' className='btn btn-success' onClick={setSciqOfProductDetail}>Finish this variant</button>
+            <button type='button' className='btn btn-success' onClick={setSciqOfProductDetail}>Set product details</button>
             <hr />
             <h3 className='marginlr'>This section is for when you finish all your product details and variants respectively</h3>
             <br />
-            <button type='button' className='btn btn-warning' onClick={setProductSFDetailOfProduct}>Set product details</button>
+            <button type='button' className='btn btn-warning' onClick={setProductSFDetailOfProduct}>Finish this variant</button>
             <hr />
             <h3 className='marginlr'>This section is for creating a new product to your database</h3>
             <br />

@@ -17,7 +17,7 @@ import UpdateProductPrice from "./pages/product/UpdateProductPrice";
 
 function App() {
   const [theme, colorMode] = useMode();
-  const isLoggedIn = false; // đổi thành true nếu người dùng đã đăng nhập
+  // const isLoggedIn = false; // đổi thành true nếu người dùng đã đăng nhập
 
   return (
 

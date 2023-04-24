@@ -61,6 +61,7 @@ function UpdateProductDetailInfo() {
   const [image, setImage] = useState("");
   const [imgObjList, setImgObjList] = useState([]);
   const [isSetSciq, setIsSetSciq] = useState(false);
+  const [backupImg, setBackupImg] = useState([]);
 
  useEffect(() => {
     loadProduct()
@@ -86,6 +87,8 @@ function UpdateProductDetailInfo() {
         setRequestProductDetailInfoDto((prevState)=>({...prevState, curSerialNumber: res.data.serialNumber}))
 // sử dụng prevState truyền vào hàm setter của setRequestProductDetailInfoDto đảm bảo các prop khác của state không bị thay đổi bởi các thay đổi khác
         setSciq({...sciq, size: size, color: color, img: img, quantity: quantity})
+        setBackupImg(img)
+        console.log("backupImg", img)
 // xu ly hien thi giao dien theo category
         if(res.data.category === "Computer"){
           setIsComputer(true);
@@ -97,6 +100,7 @@ function UpdateProductDetailInfo() {
   };
 
     const saveDetailInfo = () => {
+      console.log("requestProductDetailInfoDto: ", requestProductDetailInfoDto)
       axios ({
         headers: {
           'Authorization': `Bearer ${localStorage.getItem("tokenOwner")}`,
@@ -156,7 +160,11 @@ function UpdateProductDetailInfo() {
 
     function setImgListOfSciq(){
       console.log("Image List: ", imgObjList);
-      setSciq({...sciq, img: imgObjList})
+      if(imgObjList.length === 0){
+        setSciq({...sciq, img: backupImg})
+      } else{
+        setSciq({...sciq, img: imgObjList})
+      }
       setIsSetSciq(true);
     }
 
@@ -164,7 +172,6 @@ function UpdateProductDetailInfo() {
       const sciqJSON = JSON.stringify(sciq)
       // console.log("sciqJSON: ", sciqJSON)
       setRequestProductDetailInfoDto({...requestProductDetailInfoDto, size_color_img_quantity: sciqJSON})
-      console.log("requestProductDetailInfoDto: ", requestProductDetailInfoDto)
     }
 
     return (
@@ -515,6 +522,7 @@ function UpdateProductDetailInfo() {
                           }
                     }}
                     >
+                
                 <Box
                   sx={{
                     gridColumn: "span 2",
@@ -555,11 +563,11 @@ function UpdateProductDetailInfo() {
                     variant="contained" color="warning" sx={{ width: '150px', height: '40px', ml: '20px'}}>
                     Clear Image List
                 </Button>
-                </Box>  
-
-                
+                </Box>
               </Box>
-                
+              <Typography>
+                If you have changed the size, color, quantity, or image, you need to click the 'setSCIQ' button
+                </Typography>
               <Box sx={{
                     gridColumn: "span 2",
                   }}>
