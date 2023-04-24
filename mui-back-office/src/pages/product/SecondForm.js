@@ -389,10 +389,10 @@ export default function SecondForm() {
             </div>
             <input type='text' name='image' onChange={createImage}></input>
             <br />
-            <button type='button' className='btn btn-primary mt-2' onClick={showSCIQ}>Show current SCIQ</button>
+            {/* <button type='button' className='btn btn-primary mt-2' onClick={showSCIQ}>Show current SCIQ</button>
             <br />
             <button type='button' className='btn btn-primary mt-2' onClick={showImgObjList}>Show current imgObjList</button>
-            <br />
+            <br /> */}
             <button type='button' className='btn btn-primary mt-2' onClick={addToImgObjList}>Add to image objects lists</button>
             <br />
             <button type='button' className='btn btn-success mt-2' onClick={setImgListOfSciq}>Decide to finish this image list for this product's variant</button>

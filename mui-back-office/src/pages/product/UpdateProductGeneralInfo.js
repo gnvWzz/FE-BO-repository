@@ -84,8 +84,8 @@ export default function UpdateProduct() {
   return (
     <Box m="20px">
       <Header
-        title="PRODUCT INFO"
-        subtitle="Product Info for Future Reference"
+        title="UPDATE GENERAL INFO"
+        subtitle="Update product general info"
       />
       <Formik
                     initialValues={initialValues}
