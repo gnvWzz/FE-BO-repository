@@ -2,6 +2,10 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { API_URL } from '../../components/URLS/url';
+import SaveIcon from '@mui/icons-material/Save';
+import ClearAllIcon from '@mui/icons-material/ClearAll';
+import { Button} from "@mui/material";
+
 
 export default function ThirdForm() {
     const {accountUsername} = useParams();
@@ -178,25 +182,34 @@ export default function ThirdForm() {
         )
     }
 
-    const showCurrentProduct = (e) => {
-        console.log(product)
-    }
+    // const showCurrentProduct = (e) => {
+    //     console.log(product)
+    // }
 
-    const showCurrentTempPricesList = () => {
-        console.log(tempPricesList);
-    }
+    // const showCurrentTempPricesList = () => {
+    //     console.log(tempPricesList);
+    // }
 
-    const showCurrentJSONProduct = () => {
-        console.log(JSON.stringify(product))
-    }
+    // const showCurrentJSONProduct = () => {
+    //     console.log(JSON.stringify(product))
+    // }
 
     return (
         <div style={{ textAlign: "center" }}>
             <h1 style={{ textAlign: 'center' }}>Add prices list for your product</h1>
-            <button type='button' className='btn btn-danger mt-3' onClick={resetAllData}>Reset all data</button>
+            <Button
+                type="button"
+                variant="contained"
+                color="warning"
+                onClick={resetAllData}
+                sx={{ width: "180px", height: "40px"}}
+                startIcon={<ClearAllIcon />}
+              >
+                Reset all data
+              </Button>
             {/* <button type='button' className='btn btn-warning mt-3 ml-2' onClick={showCurrentProduct}>Show current product</button>
             <button type='button' className='btn btn-warning mt-3 ml-2' onClick={showCurrentTempPricesList}>Show current temp prices list</button> */}
-            <button type='button' className='btn btn-warning mt-3 ml-2' onClick={showCurrentJSONProduct}>Show current JSON product</button>
+            {/* <button type='button' className='btn btn-warning mt-3 ml-2' onClick={showCurrentJSONProduct}>Show current JSON product</button> */}
             <hr />
             <h3 className='mt-3'>First, enter the from-quantity for your price discount limit</h3>
             <input className='mt-2' type='text' name='fromQuantity' onChange={handleInputPriceObj} />
@@ -205,8 +218,8 @@ export default function ThirdForm() {
             <h3 className='mt-5'>Finally, enter the price for discount limit</h3>
             <input className='mt-2' type='text' name='price' onChange={handleInputPriceObj} />
             <hr />
-            <h2 className='mt-5'>When finishing the above information, create price object and add it to a temp product prices list. You can continue to add more price objects to current temp prices list</h2>
-            <button type='button' onClick={addToTempPricesList} className='btn btn-success mt-2'>Create price object for prices list</button>
+            <h2 className='mt-5'>When finishing the above information, create price object and add it to a temp product prices list.</h2>
+            <button type='button' onClick={addToTempPricesList} className='btn btn-primary mt-2'>Create new price object</button>
             <table className='prices-information mt-2'>
                 {showPricesTable()}
             </table>
@@ -214,10 +227,19 @@ export default function ThirdForm() {
             <button type='button' onClick={addPriceObjToOfficialPricesList} className='btn btn-success mt-2'>Set temp prices list to official prices list</button>
             <hr />
             <h2 className='mt-5'>This section is for finalizing your prices list of your product</h2>
-            <button className='btn btn-success mt-2' type='button' onClick={createPricesListForCurrentProduct}>Create prices list for current product</button>
+            <button className='btn btn-warning mt-2' type='button' onClick={createPricesListForCurrentProduct}>Confirm current prices list</button>
             <hr />
-            <h2 className='mt-5'>Add this product to database</h2>
-            <button className='btn btn-success mt-2' onClick={saveProductToDatabase} type='button'>Add product</button>
+            
+            <Button
+                type="button"
+                variant="contained"
+                color="info"
+                onClick={saveProductToDatabase}
+                sx={{ width: "150px", height: "40px"}}
+                startIcon={<SaveIcon />}
+              >
+                Save product
+              </Button>
         </div>
     )
 }
