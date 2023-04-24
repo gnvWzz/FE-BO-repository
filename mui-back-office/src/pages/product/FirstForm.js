@@ -8,10 +8,7 @@ import Header from '../../components/Header';
 
 const firstFormSchema = yup.object().shape({
     name: yup.string().required("Product's Name is required"),
-    // packageId: yup.string().required("Package ID is required"),
-    category: yup.string().required('Category is required')
-    // sizes: yup.string().required("Sizes is required"),
-    // colors: yup.string().required("Colors is required"),
+    category: yup.string().required('Category is required'),
   })
   const initialValues = {
     name: "",
@@ -129,23 +126,6 @@ export default function FirstForm() {
                 />
                 <Field
                     fullWidth
-                    variant="filled"
-                    type="text"
-                    sx={{ gridColumn: "span 2" }}
-                    onBlur={handleBlur}
-                    error={touched.packageId && !!errors.packageId}
-                    helperText={touched.packageId && errors.packageId}
-                    label="Package ID"
-                    name="packageId"
-                    value={passProduct.packageId}
-                    onChange={(e) => {
-                        setFieldValue("packageId", e.target.value);
-                        handleInput(e);
-                    }}
-                    as={TextField}
-                />
-                <Field
-                    fullWidth
                     sx={{ gridColumn: 'span 2' }}
                     variant="filled"
                     name="category"
@@ -221,6 +201,7 @@ export default function FirstForm() {
                 <button type="submit">Generate</button><br/>
                 {/* <Button style={{backgroundColor: "#007bff"}} type="submit">Generate</Button><br/> */}
                 <button onClick={clearAllData} style={{backgroundColor: "orange"}}>Clear</button>
+                <button onClick={() => navigate(`/store/${accountUsername}`)} style={{backgroundColor: "orange"}}>Return</button>
             </Box>
             </Form>)}
             </Formik>
