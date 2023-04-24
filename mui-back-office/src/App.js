@@ -1,11 +1,9 @@
 import { ColorModeContext, useMode } from "./theme";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 
-
-import { Routes,Route, BrowserRouter } from "react-router-dom";
+import { Routes, Route, BrowserRouter } from "react-router-dom";
 
 import ProductInfo from "./pages/product/ProductInfo";
-import Calendar from "./components/Calendar";
 import Login from "./components/Login";
 import Layout from "./components/Layout";
 import Store from "./pages/store/Store";
@@ -16,7 +14,10 @@ import SecondForm from "./pages/product/SecondForm";
 import ThirdForm from "./pages/product/ThirdForm";
 import UpdateProductGeneralInfo from "./pages/product/UpdateProductGeneralInfo";
 import UpdateProductDetailInfo from "./pages/product/UpdateProductDetailInfo";
+
 import SignUp from "./components/SignUp";
+
+import UpdateProductPrice from "./pages/product/UpdateProductPrice";
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -40,12 +41,12 @@ function App() {
                   />
                   <Route
                     exact
-                    path="/store/image/:storeId"
+                    path="/store/image/:accountUsername"
                     element={<UpdateStoreImage />}
                   />
                   <Route
                     exact
-                    path="/store/name/:storeId"
+                    path="/store/name/:accountUsername"
                     element={<UpdateStoreName />}
                   />
                   <Route
@@ -80,8 +81,8 @@ function App() {
                   />
                   <Route
                     exact
-                    path="/calendar/:accountUsername"
-                    element={<Calendar />}
+                    path="/product/edit/price/:accountUsername/:serialNumber"
+                    element={<UpdateProductPrice />}
                   />
                 </Route>
               </Routes>

@@ -1,7 +1,7 @@
 npx create-react-app mui-back-office
 npm i react-router-dom
 npm i @mui/icons-material @mui/material @mui/x-data-grid
-npm i react-pro-sidebar
+npm i react-pro-sidebar (tạm thời không xài)
 
 #sử dụng @mui/material để thiết lập grid cho giao diện
 
