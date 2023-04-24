@@ -42,7 +42,7 @@ export default function Topbar() {
         </IconButton>
       </Box> */}
       <Box display="flex">
-        <Typography p="10px 0 0 40px" variant="h2" color={"lightskyblue"}>Business to Business Company</Typography>
+        <Typography p="10px 0 0 30px" variant="h2" color={"lightskyblue"}>Business to Business Company</Typography>
       </Box>
 
       {/* ICONS */}

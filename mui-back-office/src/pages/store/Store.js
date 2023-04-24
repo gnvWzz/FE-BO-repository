@@ -10,7 +10,6 @@ import { tokens } from "../../theme";
 import { useTheme } from "@mui/material";
 import ReactPaginate from 'react-paginate';
 import { ArrowDropDown } from '@mui/icons-material';
-// import {FcCalendar} from "react-icons/fc"
 import "../../components/Pagination.css"
 import { NOTFOUND_URL } from '../../components/URLS/url';
 
@@ -27,8 +26,8 @@ function Store() {
     const navigate = useNavigate();
     const [store, setStore] = useState({});
     const {accountUsername} = useParams();
-    const [responseProductDetailDtoList
-        , setResponseProductDetailDtoList
+    const [responseProductInfoDtoList
+        , setResponseProductInfoDtoList
     ] = useState([])
     const [currentPage, setCurrentPage] = useState(0);
     const ITEMS_PER_PAGE = 5;
@@ -36,7 +35,7 @@ function Store() {
     const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
   const [selectedIndex, setSelectedIndex] = React.useState(1);
-  const {state} = useLocation();
+  // const {state} = useLocation();
 
   const handleMenuItemClick = (event, index) => {
     setSelectedIndex(index);
@@ -67,8 +66,8 @@ function Store() {
     function getCurrentItems() {
       const startIndex = currentPage * ITEMS_PER_PAGE;
       const endIndex = startIndex + ITEMS_PER_PAGE;
-      console.log("items:",responseProductDetailDtoList);
-      return responseProductDetailDtoList.slice(startIndex, endIndex);
+      console.log("items:",responseProductInfoDtoList);
+      return responseProductInfoDtoList.slice(startIndex, endIndex);
     }
 
     useEffect(() => {
@@ -90,11 +89,18 @@ function Store() {
            
         }
       }},
-      {
+        {
+          field: "productName",
+          headerName: "Name",
+          flex: 2,
+          cellClassName: "name-column--cell",
+          headerAlign: "left",
+          align: "left",
+        },
+        {
           field: "serialNumber",
           headerName: "Serial Number",
           flex: 1,
-          cellClassName: "name-column--cell",
           headerAlign: "left",
           align: "left",
         },
@@ -105,14 +111,14 @@ function Store() {
         },
         {
           field: "quantity",
-          headerName: "Quantity",
-          flex: 0.7,
+          headerName: "Stock",
+          flex: 1,
         },
         {
           field: "remove",
           headerName: "Remove",
           type: "button",
-          flex: 0.5,
+          flex: 1,
           renderCell: (params)=>{
             const handleRemoveClick = async () => {
               console.log(params.row.serialNumber);
@@ -124,7 +130,6 @@ function Store() {
                 url: `http://localhost:8080/api/productdetail/remove/${params.row.serialNumber}`,
                 method: "POST",
               })
-              // await axios.post(`http://localhost:8080/api/productdetail/remove/${params.row.serialNumber}`)
                 .then(res => {
                   if (res.status === HttpStatusCode.Ok) {
                     // console.log(res.status);
@@ -158,11 +163,11 @@ function Store() {
           if (res.status === HttpStatusCode.Ok) {
             console.log("res.data", res.data);
             setStore({curName: res.data.name, image: res.data.image});
-            setResponseProductDetailDtoList(res.data.responseProductDetailDtoList)
-            // console.log(res.data.responseProductDetailDtoList)
-            const products = res.data.responseProductDetailDtoList.map((product, index) => {
+            setResponseProductInfoDtoList(res.data.responseProductInfoDtoList)
+            // console.log(res.data.responseProductInfoDtoList)
+            const products = res.data.responseProductInfoDtoList.map((product, index) => {
               const {  size, color, img,quantity } = JSON.parse(product.size_color_img_quantity);
-              console.log(JSON.parse(product.size_color_img_quantity))
+              // console.log(JSON.parse(product.size_color_img_quantity))
               return {
                 ...product,
                 id: index + 1,
@@ -173,7 +178,7 @@ function Store() {
               };
             });
             
-            setResponseProductDetailDtoList(products);
+            setResponseProductInfoDtoList(products);
           }
         } catch (err) {
           throw err;
@@ -182,7 +187,7 @@ function Store() {
     
 
       return (
-    <Box m="20px">
+    <Box m="20px 30px 0 30px">
       <Header
         title="STORE INFO"
         subtitle="Store Info for Future Reference"
@@ -198,7 +203,7 @@ function Store() {
       >
         
         <Grid sx={{ gridColumn: "span 1" }}>
-        <Box m="0 0 20px 20px">
+        <Box m="0 0 20px 0">
         <Grid container direction="column" alignItems="left">
           <Grid item xs={12}>
             <ButtonGroup variant="contained" color="info" ref={anchorRef} aria-label="split button">
@@ -255,9 +260,8 @@ function Store() {
         </Grid>
 
         <Grid sx={{ gridColumn: "span 2" }}>
-          {/* <Typography variant='h3' align='right'>
-            <FcCalendar onClick={() => navigate(`/calendar/${accountUsername}`)} style={{width: "50px", height: "50px"}}/> Calendar</Typography> */}
-          <Typography variant="h2" align="center" style={{maxWidth: "100%", height: "2em", padding: "0.5em", backgroundColor: "skyblue", color: "purple"}}>
+          
+          <Typography variant="h2" align="center" style={{maxWidth: "100%", height: "1.75em", padding: "0.25em", backgroundColor: "skyblue", color: "purple"}}>
               Your products
           </Typography>
           <Box
@@ -304,7 +308,7 @@ function Store() {
           <ReactPaginate
             previousLabel={'Previous'}
             nextLabel={'Next'}
-            pageCount={Math.ceil(responseProductDetailDtoList.length / ITEMS_PER_PAGE)}
+            pageCount={Math.ceil(responseProductInfoDtoList.length / ITEMS_PER_PAGE)}
             onPageChange={({ selected }) => setCurrentPage(selected)}
             containerClassName={'pagination'}
             activeClassName={'active'}

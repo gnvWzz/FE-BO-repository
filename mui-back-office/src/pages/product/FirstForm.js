@@ -5,6 +5,9 @@ import { Formik, Form , Field} from "formik";
 import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from '../../components/Header';
+import LabelImportantIcon from '@mui/icons-material/LabelImportant';
+import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
+import ClearAllIcon from '@mui/icons-material/ClearAll';
 
 const firstFormSchema = yup.object().shape({
     name: yup.string().required("Product's Name is required"),
@@ -81,22 +84,22 @@ export default function FirstForm() {
         setSizes([]);
     }
     return (
-        <Box m="20px">
-            <Header
-                title="CREATE PRODUCT FORM"
-                subtitle="First Form to create a new product"
-                />
-                <Formik
-                    initialValues={initialValues}
-                    validationSchema={firstFormSchema}
-                    onSubmit={generateProduct}
-                >
-                {({
-                    errors,
-                    touched,
-                    handleBlur, 
-                    setFieldValue,
-                    }) => (
+    <Box m="20px 30px 0 30px">
+        <Header
+            title="CREATE PRODUCT FORM"
+            subtitle="First Form to create a new product"
+            />
+            <Formik
+                initialValues={initialValues}
+                validationSchema={firstFormSchema}
+                onSubmit={generateProduct}
+            >
+            {({
+                errors,
+                touched,
+                handleBlur, 
+                setFieldValue,
+                }) => (
                 <Form>
                 <Box
                     display="grid"
@@ -108,6 +111,7 @@ export default function FirstForm() {
                             color: "red"
                           }
                     }}
+                    ml="20px" mr="20px"
                     >
                 <Field
                     fullWidth
@@ -117,7 +121,7 @@ export default function FirstForm() {
                     onBlur={handleBlur}
                     error={touched.name && !!errors.name}
                     helperText={touched.name && errors.name}
-                    label="Product's Name"
+                    label="Product Name"
                     name="name"
                     value={passProduct.name}
                     onChange={(e) => {
@@ -141,6 +145,7 @@ export default function FirstForm() {
                     as={Select}
                     error={touched.category && !!errors.category}
                     helperText={touched.category ? errors.category : ''}
+                    displayEmpty={true}
                     >
                     <MenuItem value="" disabled>
                         Select a category
@@ -200,14 +205,51 @@ export default function FirstForm() {
                     }}
                     as={TextField}
                 />
-                <button type="submit">Generate</button><br/>
-                {/* <Button style={{backgroundColor: "#007bff"}} type="submit">Generate</Button><br/> */}
-                <button onClick={clearAllData} style={{backgroundColor: "orange"}}>Clear</button>
-                <button onClick={() => navigate(`/store/${accountUsername}`)} style={{backgroundColor: "blue"}}>Return</button>
-            </Box>
+                {/* <button type="submit">Generate</button><br/> */}
+                <Box 
+                    display="grid"
+                    gap="30px"
+                    gridTemplateColumns="repeat(2, minmax(0, 1fr))"
+                    sx={{gridColumn: "span 2",
+                        "& > div": { gridColumn: isNonMobile ? undefined : "span 2" },
+                        "& .Mui-error": {
+                            color: "red"
+                          }
+                    }}
+                >
+                    <Box
+                        sx={{
+                            gridColumn: "span 2",
+                            display: "flex",
+                            justifyContent: "left",
+                            alignItems: "flex-end",
+                            gridRow: "1/1"
+                        }}
+                    >
+                        <Button 
+                            startIcon={<LabelImportantIcon />}
+                            type="submit"
+                            variant="contained" color="info" sx={{ width: '100px', height: '40px'}}>
+                            Generate
+                        </Button>
+                        <Button 
+                            startIcon={<ClearAllIcon />}
+                            type='button'
+                            onClick={clearAllData}
+                            variant="contained" color="warning" sx={{ width: '100px', height: '40px', ml: '20px'}}>
+                            Clear
+                        </Button>
+                    </Box>
+                </Box>
+                
+                    <Button 
+                        startIcon={<KeyboardReturnIcon />}
+                        onClick={() => navigate(`/store/${accountUsername}`)} variant="contained" color="error" sx={{ width: '100px', height: '40px'}}>
+                        Return
+                    </Button>
+                </Box>
             </Form>)}
-            </Formik>
-
-        </Box>
+        </Formik>
+    </Box>
     )
 }

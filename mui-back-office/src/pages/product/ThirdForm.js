@@ -1,8 +1,7 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { PRODUCT_URL } from '../../components/URLS/url';
-// import "../../components/CreateProductFormCSS.css"
+import { API_URL } from '../../components/URLS/url';
 
 export default function ThirdForm() {
     const {accountUsername} = useParams();
@@ -17,7 +16,7 @@ export default function ThirdForm() {
     });
     const [tempPricesList, setTempPricesList] = useState([]);
     let isStop = false;
-    const url = PRODUCT_URL;
+    const url = API_URL;
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -101,9 +100,9 @@ export default function ThirdForm() {
         setTempPricesList(temps);
     }
 
-    const editThisPrice = (e) => {
+    // const editThisPrice = (e) => {
 
-    }
+    // }
 
     const addPriceObjToOfficialPricesList = (e) => {
         setPriceList(tempPricesList)
@@ -119,7 +118,7 @@ export default function ThirdForm() {
                 Authorization: `Bearer ${localStorage.getItem("tokenOwner")}`,
                 "Content-Type": "application/json",
             },
-            url: `${url}/new-product/`,
+            url: `${url}/product/new-product/`,
             method: "POST",
             data: product
         })
@@ -171,7 +170,7 @@ export default function ThirdForm() {
                         </td>
                         <td>
                             <button className='btn btn-primary' onClick={removeThisPrice} type="button" value={element.priceId}>Remove</button>
-                            <button className='btn btn-primary ml-2' onClick={editThisPrice} type="button" value={element.priceId}>Edit</button>
+                            {/* <button className='btn btn-primary ml-2' onClick={editThisPrice} type="button" value={element.priceId}>Edit</button> */}
                         </td>
                     </tr>
                 ))}
@@ -195,8 +194,8 @@ export default function ThirdForm() {
         <div style={{ textAlign: "center" }}>
             <h1 style={{ textAlign: 'center' }}>Add prices list for your product</h1>
             <button type='button' className='btn btn-danger mt-3' onClick={resetAllData}>Reset all data</button>
-            <button type='button' className='btn btn-warning mt-3 ml-2' onClick={showCurrentProduct}>Show current product</button>
-            <button type='button' className='btn btn-warning mt-3 ml-2' onClick={showCurrentTempPricesList}>Show current temp prices list</button>
+            {/* <button type='button' className='btn btn-warning mt-3 ml-2' onClick={showCurrentProduct}>Show current product</button>
+            <button type='button' className='btn btn-warning mt-3 ml-2' onClick={showCurrentTempPricesList}>Show current temp prices list</button> */}
             <button type='button' className='btn btn-warning mt-3 ml-2' onClick={showCurrentJSONProduct}>Show current JSON product</button>
             <hr />
             <h3 className='mt-3'>First, enter the from-quantity for your price discount limit</h3>

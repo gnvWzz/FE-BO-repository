@@ -4,7 +4,6 @@ import {useNavigate} from "react-router-dom";
 import { Formik,Field } from "formik";
 import axios from "axios";
 
-
 export default function SignUp(){
 
   const REGEX = {

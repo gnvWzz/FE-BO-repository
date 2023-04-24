@@ -11,9 +11,10 @@ export default function UpdateStoreImage() {
   const [uploadSuccess, setUploadSuccess] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
   const [message, setMessage] = useState("");
-  let location = useLocation();
+  let {state} = useLocation();
+  console.log(state)
   const navigate = useNavigate();
-  let { storeId } = useParams();
+  let { accountUsername } = useParams();
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -27,13 +28,18 @@ export default function UpdateStoreImage() {
       .then(
         (response) => {
         const imageUrl = response.data.secure_url;
-        console.log(response.data.secure_url)
-        axios
-          .post(`http://localhost:8080/api/store/update-image`, 
-          {curName: location.state.store.curName, image: imageUrl}
-          )
+        // console.log(response.data.secure_url)
+        axios ({
+            headers: {
+              'Authorization': `Bearer ${localStorage.getItem("tokenOwner")}`,
+              "Content-Type": "application/json",
+            },
+            url: `http://localhost:8080/api/store/update-image`,
+            method: "POST",
+            data: {curName: state.store.curName, image: imageUrl},
+          })
           .then((response) => {
-            console.log(response);
+            // console.log(response);
             console.log("imageUrl ",JSON.stringify (imageUrl));
             setImageUrl(imageUrl);
             setUploadSuccess(true);
@@ -58,7 +64,7 @@ export default function UpdateStoreImage() {
 }, [uploadSuccess, imageUrl, message]);
 
   return (
-  <Box m="20px">
+  <Box m="20px 30px 0 30px">
     <Header
       title="UPDATE STORE INFO"
       subtitle="Update the name and image of the store"
@@ -71,7 +77,7 @@ export default function UpdateStoreImage() {
       position: 'relative' }}>
 
       <Box style={{paddingTop: '2em'}}>
-        <Box style={{ position: 'absolute', top: '30%', left: '50%', transform: 'translate(-50%, -50%)'}}>
+        <Box style={{ position: 'absolute', top: '25%', left: '51%', transform: 'translate(-50%, -50%)'}}>
           <form>
             {image ? (
               <div style={{ width: '150px', height: '150px', borderRadius: '50%', overflow: 'hidden', margin: '0 auto' }}>
@@ -85,8 +91,12 @@ export default function UpdateStoreImage() {
             <hr></hr>
             <Input type="file" onChange={(e) => setImage(e.target.files[0])} />
             <hr></hr>
-            <Button class="btn" onClick={handleSubmit} style={{marginRight: "1em"}}>Upload Image</Button>
-            <Button class="btn" onClick={e => navigate(`/store/${storeId}`)}>Return</Button>
+            <Button onClick={handleSubmit} variant="contained" color="primary" style={{marginRight: "20px", width: "112px", height: "36px"}}>
+              Upload Image
+            </Button>
+            <Button onClick={e => navigate(`/store/${accountUsername}`)} variant="contained" color="error" style={{width: "112px", height: "36px"}}>
+              Return
+            </Button>
           </form>
         </Box>
       </Box>
