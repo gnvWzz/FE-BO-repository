@@ -12,26 +12,28 @@ function ProductInfo() {
   const {accountUsername} = useParams();
   const {serialNumber} = useParams();
   const navigate = useNavigate();
+  const [isComputer, setIsComputer] = useState(false);
   const [sciq, setSciq] = useState({
     size: "",
     color: "",
     img: [],
     quantity: ""
   })
+  const [priceList, setPriceList] = useState([]);
   const [product, setProduct] = useState({
     productName: "",
     category: "",
     manufacturer: "",
     serialNumber: "",
-    standardPrice: "",
+    priceListDtos: [],
     briefDescription: "",
     fullDescription: "",
     weight: "",
     material: "",
     size_color_img_quantity: "",
     cpu: "",
-    gpu: "",
     ram: "",
+    gpu: "",
     storageDrive: "",
     display: "",
   });
@@ -42,21 +44,32 @@ function ProductInfo() {
 
   const loadProduct = async () => {
     try {
-      const res = await axios.get(`http://localhost:8080/api/productdetail/${serialNumber}`);
+      const res = await axios({
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem("tokenOwner")}`,
+          "Content-Type": "application/json",
+        },
+        url: `http://localhost:8080/api/productdetail/${serialNumber}`,
+        method: "GET",
+      });
       if (res.status === HttpStatusCode.Ok) {
-        console.log("res.data", res.data);
+        // console.log("res.data: ", res.data);
         setProduct(res.data);
         const { size, color, img, quantity } = JSON.parse(res.data.size_color_img_quantity)
-        setSciq((prevSciq) => {
-          return {
+        setSciq((prevSciq) => ({
             ...prevSciq,
             size,
             color,
             img,
             quantity
-          }
-        })
-        // sử dụng functional update để tránh việc state bị ghi đè bởi giá trị cũ khi update state
+        }))
+        // sử dụng prevState truyền vào hàm setter để tránh việc state bị ghi đè bởi giá trị cũ khi update state
+        setPriceList(res.data.priceListDtos)
+        console.log(priceList)
+        // xu ly hien thi giao dien theo category
+        if(res.data.category === "Computer"){
+          setIsComputer(true);
+        }
       }
     } catch (err) {
       throw err;
@@ -76,8 +89,18 @@ function ProductInfo() {
       }
     }
   }
+
+  // function showPrice(){
+  //   let firstPrice = priceList[0]?.price
+  //   // Toán tử ?. là Optional Chaining, cho phép truy cập vào các thuộc tính lồng nhau mà không nhận được 
+  //   // lỗi TypeError nếu bất kỳ thuộc tính lồng nhau nào {priceList[0]} bị undifined hoặc là null
+  //   return (
+  //     <>{firstPrice}</>
+  //   )
+  // }
+
   return (
-    <Box m="20px">
+    <Box m="20px 30px 0 30px">
       <Header
         title="PRODUCT INFO"
         subtitle="Product Info for Future Reference"
@@ -85,7 +108,7 @@ function ProductInfo() {
       
       <Box
         display="grid"
-        gap="20px" marginLeft={"20px"} marginRight={"20px"}
+        gap="30px" marginLeft={"20px"} marginRight={"20px"}
         gridTemplateColumns="repeat(5, minmax(0, 1fr))"
         sx={{
           "& > div": { gridColumn: isNonMobile ? undefined : "span 5" },
@@ -122,7 +145,8 @@ function ProductInfo() {
                   <td>Manufacturer</td>
                   <td>{product.manufacturer}</td>
                 </tr>
-                <Button onClick={() => navigate(`/product/edit/general/${accountUsername}/${serialNumber}`)} variant="contained" color="primary">
+                <Button onClick={() => navigate(`/product/edit/general/${accountUsername}/${serialNumber}`)} 
+                  variant="contained" color="primary" sx={{ width: "135px", height: "32px", mt:"5px"}}>
                   Edit general info
                 </Button>
                 <tr>
@@ -134,47 +158,96 @@ function ProductInfo() {
                   <td>Serial Number</td>
                   <td>{product.serialNumber}</td>
                 </tr>
-                <tr>
-                  <td>Standard Price</td>
-                  <td>{product.standardPrice}</td>
-                </tr>
+                {/* <tr>
+                  <td>Price</td>
+                  <td>{showPrice()}</td>
+                </tr> */}
                 <tr>
                   <td>Stock</td>
                   <td>{sciq.quantity}</td>
-                </tr>
-                <tr>
-                  <td>Color</td>
-                  <td>{sciq.color}</td>
                 </tr>
                 <tr>
                   <td>Size</td>
                   <td>{sciq.size}</td>
                 </tr>
                 <tr>
-                  <td>Weight</td>
-                  <td>{product.weight}</td>
+                  <td>Color</td>
+                  <td>{sciq.color}</td>
                 </tr>
                 <tr>
                   <td>Material</td>
                   <td>{product.material}</td>
                 </tr>
                 <tr>
-                  <td>Brief Description</td>
-                  <td>{product.briefDescription}</td>
+                  <td>Weight</td>
+                  <td>{product.weight}</td>
                 </tr>
-                <tr>
-                  <td>Full Description</td>
-                  <td>{product.fullDescription}</td>
-                </tr>
+              <>{isComputer ? 
+                <> 
+                  <tr>
+                    <td>CPU</td>
+                    <td>{product.cpu}</td>
+                  </tr>
+                  <tr>
+                    <td>RAM</td>
+                    <td>{product.ram}</td>
+                  </tr>
+                  <tr>
+                    <td>GPU</td>
+                    <td>{product.gpu}</td>
+                  </tr>
+                  <tr>
+                    <td>Storage Drive</td>
+                    <td>{product.storageDrive}</td>
+                  </tr>
+                  <tr>
+                    <td>Display</td>
+                    <td>{product.display}</td>
+                  </tr>
+                  <tr>
+                    <td>Brief Description</td>
+                    <td>{product.briefDescription}</td>
+                  </tr>
+                  <tr>
+                    <td>Full Description</td>
+                    <td>{product.fullDescription}</td>
+                  </tr>
+                  </> : ""}
+                </>
+                <Button onClick={() => navigate(`/product/edit/detail/${accountUsername}/${serialNumber}`)} 
+                  variant="contained" color="primary" sx={{ width: "135px", height: "32px", mt:"5px"}}>
+                  Edit detail info
+                </Button>  
               </tbody>
             </table>
-
-            {/* <a href="#" className="btn btn-primary">My Sales Performance</a>
-                <a href="#" className="btn btn-primary">Team Sales Performance</a> */}
-            
-            <Button onClick={() => navigate(`/product/edit/detail/${accountUsername}/${serialNumber}`)} variant="contained" color="primary">
-              Edit detail info
-            </Button>
+            <table className='product-information'>
+              <tbody>
+                <tr>
+                  <td colSpan="2">
+                    <hr/>
+                  </td>
+                </tr>
+                <tr>
+                    <th>From Quantity</th>
+                    <th>To Quantity</th>
+                    <th>Price</th>
+                </tr>
+              {priceList.map((priceObj, index) => {
+                    return(
+                        <tr key={index}>
+                            <td>{priceObj?.fromQuantity}</td>
+                            <td>{priceObj?.toQuantity}</td>
+                            <td>{priceObj?.price}</td>
+                        </tr>
+                      )
+                    })
+              }
+              <Button onClick={() => navigate(`/product/edit/price/${accountUsername}/${serialNumber}`)} 
+                variant="contained" color="primary" sx={{ width: "135px", height: "32px", mt:"5px"}}>
+                Edit price
+              </Button>
+              </tbody>
+            </table>
           </Paper>
         </Grid>
       </Box>
