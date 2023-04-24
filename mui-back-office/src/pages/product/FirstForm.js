@@ -150,7 +150,7 @@ export default function FirstForm() {
                     <MenuItem value="" disabled>
                         Select a category
                     </MenuItem>
-                    {['Computer', 'Toy', 'Watch', 'Cloth', 'Shoes', 'HandBag', 'Accessory', 'Electronics'].map((category) => (
+                    {['Computer', 'Toy', 'Watch', 'Cloth', 'Shoes', 'Accessory', 'Electronics', 'Jewelry', 'Phone', 'Cosmetics'].map((category) => (
                         <MenuItem key={category} value={category}>{category}</MenuItem>
                     ))}
                     </Field>
