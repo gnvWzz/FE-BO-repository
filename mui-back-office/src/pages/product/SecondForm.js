@@ -3,6 +3,8 @@ import { useEffect, useState, } from 'react';
 import { useLocation, useNavigate, useParams} from 'react-router-dom';
 import { Box, Button, TextField, InputLabel, MenuItem, FormControl, Select} from "@mui/material";
 import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
+import ClearAllIcon from '@mui/icons-material/ClearAll';
+import KeyboardTabIcon from '@mui/icons-material/KeyboardTab';
 
 export default function SecondForm() {
     const {accountUsername} = useParams();
@@ -90,7 +92,6 @@ export default function SecondForm() {
 
         window.location.reload()
     }
-    //
 
     //Color-choosing
     const showColorsDropdown = () => {
@@ -154,17 +155,6 @@ export default function SecondForm() {
         }
     }
 
-    //Show SCIQ
-    const showSCIQ = () => {
-        console.log(sciq)
-    }
-    //
-
-    //Show current imgObjList
-    const showImgObjList = () => {
-        console.log(imgObjList)
-    }
-
     //Delete this image
     const deleteThisImage = (e) => {
         const tempList = imgObjList.filter((ele) => ele.id != e.target.value);
@@ -187,7 +177,6 @@ export default function SecondForm() {
             img: []
         })
     }
-    //
 
     //Handle other input changes of product detail except size_color_img_quantity
     const handleChangeInputForProductDetail = (e) => {
@@ -200,13 +189,7 @@ export default function SecondForm() {
         productDetail.weight = Number(input);
         // setProductDetail({ ...productDetail, weight: Number(input) })
     }
-    //
 
-    //Push current product detail to temp product details list
-    const showCurrentProductDetail = () => {
-        console.log(productDetail);
-    }
-    //
 
     //Set productSFDetail of product
     const setProductSFDetailOfProduct = () => {
@@ -229,16 +212,9 @@ export default function SecondForm() {
     //
 
     //Show current product
-    const showCurrentProduct = () => {
-        console.log(product);
-    }
-    //
-
-    //Show current product JSON
-    const showCurrentProductJSON = () => {
-        console.log(JSON.stringify(product));
-    }
-    //
+    // const showCurrentProduct = () => {
+    //     console.log(product);
+    // }
 
     const backToFirstForm = (e) => {
         navigate(`/store/product/${accountUsername}`);
@@ -247,20 +223,26 @@ export default function SecondForm() {
     return (
         <div style={{ textAlign: "center" }}>
             <h1>Create new product</h1>
-            {/* <button type='button' className='mt-2' onClick={backToFirstForm}>Back to first form</button> */}
             <Button 
                 startIcon={<KeyboardReturnIcon />}
-                onClick={backToFirstForm} variant="contained" color="secondary" sx={{ width: '200px', height: '40px'}}>
+                onClick={backToFirstForm} variant="contained" color="secondary" sx={{ width: '180px', height: '40px', mr: "20px", mb: "15px"}}>
                 Back to first form
             </Button>
             <br />
-            <h4>Press this button only for when you enter any wrong input and you want to reset all data for avoiding mistaken information</h4>
-            <button type='button' className='btn btn-danger mt-2' onClick={resetAllData}>Reset all data</button>
-            <br />
-            <button type='button' className="btn btn-warning mt-2" onClick={showCurrentProduct}>Show current product</button>
-            <br />
-            <button type='button' className='btn btn-success mt-2' onClick={showCurrentProductJSON}>Show current product JSON</button>
-            <br />
+            {/* <h4>Press this button only for when you enter any wrong input and you want to reset all data for avoiding mistaken information</h4> */}
+            <Button
+                type="button"
+                variant="contained"
+                color="warning"
+                onClick={resetAllData}
+                sx={{ width: "180px", height: "40px", mr: "20px", mb: "15px"}}
+                startIcon={<ClearAllIcon />}
+              >
+                Reset all data
+              </Button>
+            {/* <br />
+            <button type='button' className="btn btn-warning mt-2" onClick={showCurrentProduct}>Show current product</button> */}
+
             <br />
             <h2>Product: </h2>
             <div className='product-creating-information'>
@@ -271,14 +253,6 @@ export default function SecondForm() {
                         </th>
                         <td>
                             {product.name}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            <h3>Package ID: </h3>
-                        </th>
-                        <td>
-                            {product.packageId}
                         </td>
                     </tr>
                     <tr>
@@ -305,8 +279,9 @@ export default function SecondForm() {
             <hr />
             <h2>Please enter your basic product's details</h2>
             <br />
-            <br />
-            <h4>Serial number:</h4>
+            <div style={{display: "flex", flexDirection: "row"}}>
+        <div style={{flex: 1, marginRight: "20px"}}>
+            <h4>Serial number*:</h4>
             <br />
             <input type='text' name="serialNumber" value={productDetail.serialNumber} onChange={handleChangeInputForProductDetail}></input>
             <br />
@@ -330,6 +305,9 @@ export default function SecondForm() {
             <br />
             <input type='text' name="weight" onChange={handleInputWeight}></input>
             <br />
+        </div>
+        <div style={{flex: 1}}>
+            
             <br />
             <h4>CPU:</h4>
             <br />
@@ -355,6 +333,8 @@ export default function SecondForm() {
             <br />
             <input type='text' name="display" value={productDetail.display} onChange={handleChangeInputForProductDetail}></input>
             <br />
+        </div>
+        </div>
             <br />
             <hr />
             <h2>This is part for your product's variant input including sizes, colors, images and stocks for each product detail record in your database.</h2>
@@ -368,7 +348,7 @@ export default function SecondForm() {
             {showColorsDropdown()}
             <br />
             <br />
-            <h3>Stock: </h3>
+            <h3>Stock*: </h3>
             <br />
             <input type='number' name='quantity' onChange={chooseStock}></input>
             <br />
@@ -395,11 +375,7 @@ export default function SecondForm() {
             </div>
             <input type='text' name='image' onChange={createImage}></input>
             <br />
-            {/* <button type='button' className='btn btn-primary mt-2' onClick={showSCIQ}>Show current SCIQ</button>
-            <br />
-            <button type='button' className='btn btn-primary mt-2' onClick={showImgObjList}>Show current imgObjList</button>
-            <br /> */}
-            <button type='button' className='btn btn-primary mt-2' onClick={addToImgObjList}>Add to image objects lists</button>
+            <button type='button' className='btn btn-primary mt-2' onClick={addToImgObjList}>Add to image list</button>
             <br />
             <button type='button' className='btn btn-success mt-2' onClick={setImgListOfSciq}>Decide to finish this image list for this product's variant</button>
             <br />
@@ -408,23 +384,22 @@ export default function SecondForm() {
             <br />
             <button type='button' className='btn btn-success' onClick={setSciqOfProductDetail}>Finish this variant</button>
             <hr />
-            {/* <h2>This section is for when you finish one product detail for your product</h2>
-            <br />
-            <h3>Click this button to push current product detail to a temp product details list. Then, you can continue to add new product details</h3>
-            <br />
-            <button type='button' className='btn btn-success' onClick={showCurrentProductDetail}>Show current product detail</button>
-            <br />
-            <br />
-            <hr /> */}
             <h2>This section is for when you finish all your product details and variants respectively</h2>
             <br />
-            <button type='button' className='btn btn-success' onClick={setProductSFDetailOfProduct}>Set product details for this current product</button>
+            <button type='button' className='btn btn-warning' onClick={setProductSFDetailOfProduct}>Set product details</button>
             <hr />
             <h2>This section is for creating a new product to your database</h2>
             <br />
-            {/* <button type='button' className='btn btn-success' onClick={createNewProduct}>Create new product</button> */}
-            <br />
-            <button type='button' className='btn btn-success' onClick={passProductToPricesSetting}>Create new product</button>
+            <Button
+                type="button"
+                variant="contained"
+                color="info"
+                onClick={passProductToPricesSetting}
+                sx={{ width: "180px", height: "40px", mb: "20px"}}
+                startIcon={<KeyboardTabIcon />}
+              >
+                Go to the next form
+              </Button>
         </div>
     )
 }
