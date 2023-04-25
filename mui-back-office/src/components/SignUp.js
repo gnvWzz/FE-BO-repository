@@ -63,13 +63,11 @@ export default function SignUp(){
 
         .post(`http://localhost:8080/api/account/signup-owner` ,form)
         .then((res) =>{
-
         })
         .catch((err)=>{
-          throw err
+          throw err;
         })
         alert("Đăng kí thành công! " )
-
           navigate(`/`);
         
       }else {
