@@ -597,7 +597,7 @@ function UpdateProductDetailInfo() {
                       type='button'
                       startIcon={<CheckIcon />}
                       onClick={setSciqOfProductDetail}
-                      variant="contained" color="info" sx={{ width: '140px', height: '40px', ml: '20px'}}>
+                      variant="contained" color="info" sx={{ width: '140px', height: '40px', mr: "20px"}}>
                       Confirm SCIQ
                     </Button> :
                     <Button 

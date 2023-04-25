@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {useNavigate, useParams } from "react-router-dom";
-import { Box, Button, TextField, InputLabel, MenuItem, FormControl, Select} from "@mui/material";
+import { Box, Button, TextField, InputLabel, MenuItem, FormControl, Select,Snackbar} from "@mui/material";
 import { Formik, Form , Field} from "formik";
 import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -8,17 +8,15 @@ import Header from '../../components/Header';
 import LabelImportantIcon from '@mui/icons-material/LabelImportant';
 import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
 import ClearAllIcon from '@mui/icons-material/ClearAll';
+import axios, { HttpStatusCode } from 'axios';
 
 const firstFormSchema = yup.object().shape({
-    name: yup.string().required("Product's Name is required"),
+    name: yup.string().required("Product Name is required"),
     category: yup.string().required('Category is required'),
-    // sizes: yup.string().required("Sizes is required"),
-    // colors: yup.string().required("Colors is required"),
   })
   const initialValues = {
     name: "",
     category: "",
-    packageId: "",
     manufacturer: "",
     sizes: "",
     colors: "",
@@ -27,9 +25,10 @@ const firstFormSchema = yup.object().shape({
 export default function FirstForm() {
     const isNonMobile = useMediaQuery("(min-width:600px)");
     const {accountUsername} = useParams();
+    const navigate = useNavigate();
+    const [message, setMessage] = useState("");
     const [passProduct, setPassProduct] = useState({
         name: "",
-        packageId: "",
         category: "",
         manufacturer: "",
         status: "",
@@ -45,13 +44,32 @@ export default function FirstForm() {
     const [colors, setColors] = useState([])
 
     const [sizes, setSizes] = useState([])
-
-    const navigate = useNavigate();
+    useEffect(() => {
+      }, [message]);
 
     const generateProduct = () => {
-        // passProduct.accountUsername = accountUsername;
-            navigate(`/store/secondForm/${accountUsername}`, { state: { passProduct, sizes, colors} });
-    }
+        console.log(passProduct.name)
+        try {
+          axios({
+            headers: {
+              'Authorization': `Bearer ${localStorage.getItem("tokenOwner")}`,
+              "Content-Type": "application/json",
+            },
+            url: "http://localhost:8080/api/product/validation/first-form?name="+ passProduct.name,
+            method: "GET",
+            // su dung @RequestParam
+          }).then((response) => {
+            if (response.data === "NAME WAS EXISTED") {
+                setMessage("This name was existed");
+            }
+            else {
+                navigate(`/store/secondForm/${accountUsername}`, { state: { passProduct, sizes, colors} });
+            }
+          });
+        } catch (err) {
+          throw err;
+        }
+      }
 
     function handleInput(e) {
         const { name, value } = e.target;
@@ -250,6 +268,13 @@ export default function FirstForm() {
                 </Box>
             </Form>)}
         </Formik>
+
+        <Snackbar
+          open={!!message}
+          autoHideDuration={5000}
+          onClose={() => setMessage("")}
+          message={message}
+        />
     </Box>
     )
 }

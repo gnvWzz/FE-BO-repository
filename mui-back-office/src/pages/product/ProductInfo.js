@@ -75,6 +75,16 @@ function ProductInfo() {
       throw err;
     }
   };
+  
+  if(!product.productName){
+    return (
+      <>
+        <div className="loader-container">
+          <div className="spinner"></div>
+        </div>
+      </>
+    )
+  } 
 
   const showImage = () => {
     if (sciq.img !== undefined) {
@@ -82,6 +92,7 @@ function ProductInfo() {
         return (
           <img alt="Product Pic" src={sciq.img[0].url} style={{ maxWidth: "100%", height: "auto", padding: "3em" }} />
         )
+          
       } else {
         return (
           <img alt="Product Pic" src={NOTFOUND_URL} style={{ maxWidth: "100%", height: "auto", padding: "3em" }} />
@@ -89,6 +100,7 @@ function ProductInfo() {
       }
     }
   }
+
 
   // function showPrice(){
   //   let firstPrice = priceList[0]?.price

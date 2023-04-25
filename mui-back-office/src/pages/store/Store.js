@@ -12,6 +12,8 @@ import ReactPaginate from 'react-paginate';
 import { ArrowDropDown } from '@mui/icons-material';
 import "../../components/Pagination.css"
 import { NOTFOUND_URL } from '../../components/URLS/url';
+import "../../components/ProductInfo.css"
+
 
 
 const EmptyFooter = () => {
@@ -148,7 +150,6 @@ function Store() {
         }
     ];
   
-
     const loadStore = async () => {
         try {
           const res = await 
@@ -184,7 +185,16 @@ function Store() {
           throw err;
         }
       };
-    
+      
+      if(!store.image){
+        return (
+          <>
+            <div className="loader-container">
+              <div className="spinner"></div>
+            </div>
+          </>
+        )
+      } 
 
       return (
     <Box m="20px 30px 0 30px">
