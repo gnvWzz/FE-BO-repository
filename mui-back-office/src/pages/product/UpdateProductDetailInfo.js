@@ -16,8 +16,7 @@ import CheckIcon from '@mui/icons-material/Check';
 
 const updateDetailSchema = yup.object().shape({
   newSerialNumber: yup.string().required("SerialNumber is required"),
-  // category: yup.string().required('Category is required'),
-})
+  })
 const initialValues = {
   newSerialNumber: "",
   briefDescription: "",
@@ -87,6 +86,7 @@ function UpdateProductDetailInfo() {
         setRequestProductDetailInfoDto((prevState)=>({...prevState, curSerialNumber: res.data.serialNumber}))
 // sử dụng prevState truyền vào hàm setter của setRequestProductDetailInfoDto đảm bảo các prop khác của state không bị thay đổi bởi các thay đổi khác
         setSciq({...sciq, size: size, color: color, img: img, quantity: quantity})
+// neu khong nhap url thi su dung gia tri backupImg de setSCIQ
         setBackupImg(img)
         console.log("backupImg", img)
 // xu ly hien thi giao dien theo category
@@ -206,7 +206,7 @@ function UpdateProductDetailInfo() {
                     >
                 <Box sx={{ gridColumn: "span 1" }}>
                 <Typography style={{margin: "0 0 10px 10px"}}>
-                  SerialNumber
+                  SerialNumber*
                 </Typography>
                 <Field
                     fullWidth
@@ -501,7 +501,6 @@ function UpdateProductDetailInfo() {
                     error={touched.img && !!errors.img}
                     helperText={touched.img && errors.img}
                     name="img"
-                    // placeholder={sciq.img}
                     // value={product.img}
                     onChange={(e) => {
                         // setFieldValue("img", e.target.value);
@@ -536,26 +535,9 @@ function UpdateProductDetailInfo() {
                     type='button'
                     startIcon={<AddPhotoAlternateIcon />}
                     onClick={addToImgObjList}
-                    variant="contained" color="success" sx={{ width: '130px', height: '40px'}}>
-                    Add Image
+                    variant="contained" color="success" sx={{ width: '140px', height: '40px'}}>
+                    Confirm Image
                 </Button> 
-                <Box>
-                  {isSetSciq ? 
-                  <Button 
-                    type='button'
-                    startIcon={<CheckIcon />}
-                    onClick={setSciqOfProductDetail}
-                    variant="contained" color="info" sx={{ width: '130px', height: '40px', ml: '20px'}}>
-                    Confirm SCIQ
-                  </Button> :
-                  <Button 
-                      type='button'
-                      startIcon={<BurstModeIcon />}
-                      onClick={setImgListOfSciq}
-                      variant="contained" color="success" sx={{ width: '130px', height: '40px', ml: '20px'}}>
-                      Set SCIQ
-                  </Button>}
-                </Box>
                 <Button 
                     type='button'
                     startIcon={<ClearAllIcon />}
@@ -565,9 +547,20 @@ function UpdateProductDetailInfo() {
                 </Button>
                 </Box>
               </Box>
-              <Typography>
-                If you have changed the size, color, quantity, or image, you need to click the 'setSCIQ' button
+
+              <Box
+                  sx={{
+                    gridColumn: "span 2",
+                    display: "flex",
+                    justifyContent: "left",
+                    alignItems: "flex-end",
+                  }}
+                >
+                <Typography>
+                  If you have changed the size, color, quantity, or image, you need to click the 'setSCIQ' button
                 </Typography>
+              </Box>
+
               <Box sx={{
                     gridColumn: "span 2",
                   }}>
@@ -598,6 +591,23 @@ function UpdateProductDetailInfo() {
                     alignItems: "flex-end",
                   }}
                 >
+                  <Box>
+                    {isSetSciq ? 
+                    <Button 
+                      type='button'
+                      startIcon={<CheckIcon />}
+                      onClick={setSciqOfProductDetail}
+                      variant="contained" color="info" sx={{ width: '140px', height: '40px', ml: '20px'}}>
+                      Confirm SCIQ
+                    </Button> :
+                    <Button 
+                        type='button'
+                        startIcon={<BurstModeIcon />}
+                        onClick={setImgListOfSciq}
+                        variant="contained" color="success" sx={{ width: '140px', height: '40px', mr: "20px"}}>
+                        Set SCIQ
+                    </Button>}
+                  </Box>
                   <Button
                     type="submit"
                     variant="contained"

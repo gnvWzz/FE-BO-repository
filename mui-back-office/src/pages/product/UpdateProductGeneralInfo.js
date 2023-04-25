@@ -116,7 +116,7 @@ export default function UpdateProduct() {
                 >
                 <Box sx={{ gridColumn: "span 3" }}>
                   <Typography style={{margin: "0 0 10px 10px"}}>
-                    Product Name
+                    Product Name*
                   </Typography>
                   <Field
                     fullWidth

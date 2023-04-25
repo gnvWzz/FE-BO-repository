@@ -53,7 +53,7 @@ function ProductInfo() {
         method: "GET",
       });
       if (res.status === HttpStatusCode.Ok) {
-        // console.log("res.data: ", res.data);
+        console.log("res.data: ", res.data);
         setProduct(res.data);
         const { size, color, img, quantity } = JSON.parse(res.data.size_color_img_quantity)
         setSciq((prevSciq) => ({
@@ -64,7 +64,7 @@ function ProductInfo() {
             quantity
         }))
         // sử dụng prevState truyền vào hàm setter để tránh việc state bị ghi đè bởi giá trị cũ khi update state
-        setPriceList(res.data.priceListDtos)
+        setPriceList(res.data.priceDtos)
         console.log(priceList)
         // xu ly hien thi giao dien theo category
         if(res.data.category === "Computer"){
@@ -232,9 +232,11 @@ function ProductInfo() {
                     <th>To Quantity</th>
                     <th>Price</th>
                 </tr>
-              {priceList.map((priceObj, index) => {
+              {priceList
+              .sort((a, b) => a.priceId > b.priceId ? 1 : -1)
+              .map((priceObj) => {
                     return(
-                        <tr key={index}>
+                        <tr key={priceObj?.priceId}>
                             <td>{priceObj?.fromQuantity}</td>
                             <td>{priceObj?.toQuantity}</td>
                             <td>{priceObj?.price}</td>

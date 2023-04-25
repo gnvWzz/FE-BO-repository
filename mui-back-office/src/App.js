@@ -2,9 +2,7 @@ import { ColorModeContext, useMode } from "./theme";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { Routes,Route, BrowserRouter } from "react-router-dom";
 import ProductInfo from "./pages/product/ProductInfo";
-import Login from "./components/Login";
 import Layout from "./components/Layout";
-import SignUp from "./components/SignUp";
 import Store from "./pages/store/Store";
 import UpdateStoreImage from "./pages/store/UpdateStoreImage";
 import UpdateStoreName from "./pages/store/UpdateStoreName";
@@ -14,6 +12,9 @@ import ThirdForm from "./pages/product/ThirdForm";
 import UpdateProductGeneralInfo from "./pages/product/UpdateProductGeneralInfo";
 import UpdateProductDetailInfo from "./pages/product/UpdateProductDetailInfo";
 import UpdateProductPrice from "./pages/product/UpdateProductPrice";
+import Login from "./pages/common/Login";
+import SignUp from "./pages/common/SignUp"
+import NotFoundPage from "./pages/common/NotFoundPage";
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -30,7 +31,8 @@ function App() {
                   <Routes>
                     <Route exact path="/" element={<Login />}/>
                     <Route exact path="/signup" element={<SignUp />}/>
-                          <Route element={<Layout />}>
+                    <Route path="*" element={<NotFoundPage/>}/>
+                        <Route element={<Layout />}>
                             <Route exact path="/store/:accountUsername" element={<Store />} />
                             <Route exact path="/store/image/:accountUsername" element={<UpdateStoreImage />} />
                             <Route exact path="/store/name/:accountUsername" element={<UpdateStoreName />} />
@@ -41,7 +43,7 @@ function App() {
                             <Route exact path="/product/edit/general/:accountUsername/:serialNumber" element={<UpdateProductGeneralInfo/>}/>
                             <Route exact path="/product/edit/detail/:accountUsername/:serialNumber" element={<UpdateProductDetailInfo/>}/>
                             <Route exact path="/product/edit/price/:accountUsername/:serialNumber" element={<UpdateProductPrice/>}/>
-                            </Route>               
+                        </Route>                   
                   </Routes>
         
         </ThemeProvider>
