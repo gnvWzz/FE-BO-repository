@@ -30,7 +30,7 @@ function Store() {
         , setResponseProductInfoDtoList
     ] = useState([])
     const [currentPage, setCurrentPage] = useState(0);
-    const ITEMS_PER_PAGE = 5;
+    const ITEMS_PER_PAGE = 6;
     const [isClickRemove, setIsClickRemove] = useState(false);
     const [open, setOpen] = React.useState(false);
     const anchorRef = React.useRef(null);

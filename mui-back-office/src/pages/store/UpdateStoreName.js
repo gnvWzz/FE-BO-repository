@@ -4,7 +4,7 @@ import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import axios, { HttpStatusCode } from 'axios';
 import { Box,Button,Snackbar } from "@mui/material";
 import Header from "../../components/Header";
-
+import { BACKGROUND_URL } from '../../components/URLS/url';
 function UpdateStoreName() {
   const [uploadSuccess, setUploadSuccess] = useState(false);
   const [message, setMessage] = useState("");
@@ -54,7 +54,7 @@ function UpdateStoreName() {
         subtitle="Update the name and image of the store"
       />
       <Box style={{ 
-        backgroundImage: `url(https://mondaycareer.com/wp-content/uploads/2020/11/background-%C4%91%E1%BA%B9p-3-1.jpg)`, 
+        backgroundImage: `url(${BACKGROUND_URL})`, 
         backgroundPosition: 'center', 
         backgroundSize: 'cover',
         height: '90vh', 
