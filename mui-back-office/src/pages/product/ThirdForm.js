@@ -113,7 +113,7 @@ export default function ThirdForm() {
     }
 
     const createPricesListForCurrentProduct = (e) => {
-        setProduct({ ...product, priceListDtos: priceList })
+        setProduct({ ...product, priceDtos: priceList })
     }
 
     const saveProductToDatabase = async (e) => {
@@ -182,9 +182,9 @@ export default function ThirdForm() {
         )
     }
 
-    // const showCurrentProduct = (e) => {
-    //     console.log(product)
-    // }
+    const showCurrentProduct = (e) => {
+        console.log(product)
+    }
 
     // const showCurrentTempPricesList = () => {
     //     console.log(tempPricesList);
@@ -207,8 +207,8 @@ export default function ThirdForm() {
               >
                 Reset all data
               </Button>
-            {/* <button type='button' className='btn btn-warning mt-3 ml-2' onClick={showCurrentProduct}>Show current product</button>
-            <button type='button' className='btn btn-warning mt-3 ml-2' onClick={showCurrentTempPricesList}>Show current temp prices list</button> */}
+            <button type='button' className='btn btn-warning mt-3 ml-2' onClick={showCurrentProduct}>Show current product</button>
+            {/* <button type='button' className='btn btn-warning mt-3 ml-2' onClick={showCurrentTempPricesList}>Show current temp prices list</button> */}
             {/* <button type='button' className='btn btn-warning mt-3 ml-2' onClick={showCurrentJSONProduct}>Show current JSON product</button> */}
             <hr />
             <h3 className='marginlr'>First, enter the from-quantity for your price discount limit</h3>
